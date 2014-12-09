@@ -1,21 +1,6 @@
 package com.toraleap.collimator;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.app.SearchManager;
-import android.app.Service;
+import android.app.*;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -32,22 +17,12 @@ import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.TouchDelegate;
-import android.view.View;
-import android.view.WindowManager;
+import android.view.*;
 import android.view.View.OnClickListener;
-import android.widget.AdapterView;
-import android.widget.EditText;
-import android.widget.GridView;
-import android.widget.ImageButton;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.*;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
-
 import com.toraleap.collimator.bll.FileScannerService;
 import com.toraleap.collimator.data.Expression;
 import com.toraleap.collimator.data.Index;
@@ -59,8 +34,11 @@ import com.toraleap.collimator.ui.MatchAdapter;
 import com.toraleap.collimator.util.FileInfo;
 import com.toraleap.collimator.util.SoftCache;
 
+import java.io.File;
+import java.util.*;
+
 /**
- * Collimator Ö÷»î¶¯£¬¸ºÔðËÑË÷´¦Àí£¬½á¹ûÏÔÊ¾µÈ²Ù×÷¡£
+ * Collimator ï¿½ï¿½ï¿½î¶¯ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½?ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½È²ï¿½ï¿½ï¿½ï¿½ï¿½
  * @author		uestc.Mobius <mobius@toraleap.com>
  * @version	2011.0515
  */
@@ -118,21 +96,21 @@ public class SearchActivity extends Activity implements OnClickListener, OnItemL
 	final EventHandler mEventHandler = new EventHandler();
 	final List<Match> mSearchResult = new ArrayList<Match>();
 	MatchAdapter mListAdapter;
-	// µ±Ç°×´Ì¬±äÁ¿
+	// ï¿½ï¿½Ç°×´Ì¬ï¿½ï¿½ï¿½ï¿½
 	Match mSelectedMatch;
 	Expression mExpression;
 	boolean isSearching = false;
 	boolean isPickMode = false;
 	boolean isRangeLocked = false;
 	long startTick = 0;
-	// Ê×Ñ¡Ïî²ÎÊý
+	// ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½
 	boolean isTapView = true;
 	boolean isDeletePermitted = false;
 	boolean isReloadWithoutPrompt = false;
 	boolean isRefreshingInstant = false;
 	boolean isFirstLaunch = true;
 	int displayLayout = MatchAdapter.LAYOUT_TILE;
-	// ½çÃæ¿Ø¼þ
+	// ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½
 	ImageButton mButtonRange;
 	ImageButton mButtonStar;
 	EditText mEditSearch;
@@ -141,6 +119,7 @@ public class SearchActivity extends Activity implements OnClickListener, OnItemL
 
 	@Override
     public void onCreate(Bundle savedInstanceState) {
+        System.out.println("_______________________onCreate");
         super.onCreate(savedInstanceState);
         Intent intent = new Intent();
         intent.setClass(this, FileScannerService.class);
@@ -153,16 +132,19 @@ public class SearchActivity extends Activity implements OnClickListener, OnItemL
 	
 	@Override
 	protected void onPause() {
-		super.onPause();
+        System.out.println("onPause");
+        super.onPause();
 	}
 
 	@Override
 	protected void onResume() {
+        System.out.println("onResume");
        	updatePreferences();
 		super.onResume();
 	}
 
 	private void initUtils() {
+        System.out.println("initUtils");
        	Intent intent = new Intent();
        	intent.setClass(SearchActivity.this, SearchActivity.class);
        	intent.setFlags(Intent.FLAG_ACTIVITY_FORWARD_RESULT);
@@ -178,11 +160,12 @@ public class SearchActivity extends Activity implements OnClickListener, OnItemL
 	}
 
 	private void initViews() {
+        System.out.println("InitViews");
        	Intent intent = getIntent();
 		mEditSearch = (EditText)findViewById(R.id.EditSearch);
        	mButtonRange = (ImageButton)findViewById(R.id.ButtonRange);
        	mButtonRange.setOnClickListener(this);
-       	// Ôö´ó·¶Î§Ñ¡Ôñ°´Å¥µÄ´¥Ãþ·¶Î§
+       	// ï¿½ï¿½ï¿½ï¿½Î§Ñ¡ï¿½ï¿½Å¥ï¿½Ä´ï¿½ï¿½ï¿½ï¿½ï¿½Î§
        	final View parent = (View)mButtonRange.getParent();
        	parent.post(new Runnable() {
 			public void run() {
@@ -225,7 +208,7 @@ public class SearchActivity extends Activity implements OnClickListener, OnItemL
        		if (type == null) {
        			enterPickMode(0, false);
        		} else if (type.startsWith("image/")) {
-       			// ÓÉÓÚÏµÍ³ GMail Èí¼þµÄÒ»¸ö BUG£¬Ìí¼Ó¸½¼þÊ±£¬·¢ËÍµÄÊÇ image/* ÀàÐÍÇëÇó£¬Òò´ËÎªÁË¼æÈÝ£¬²»ÄÜËø¶¨·¶Î§£¬Ö»ÄÜÄ¬ÈÏµ½Í¼Æ¬Ñ¡Ôñ¡£
+       			// ï¿½ï¿½ï¿½ï¿½ÏµÍ³ GMail ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ BUGï¿½ï¿½ï¿½ï¿½Ó¸ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½Íµï¿½ï¿½ï¿½ image/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½Ë¼ï¿½ï¿½Ý£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î§ï¿½ï¿½Ö»ï¿½ï¿½Ä¬ï¿½Ïµï¿½Í¼Æ¬Ñ¡ï¿½ï¿½
        			enterPickMode(1, false);
        		} else if (type.startsWith("audio/")) {
        			enterPickMode(2, true);
@@ -247,11 +230,13 @@ public class SearchActivity extends Activity implements OnClickListener, OnItemL
 			public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
 				mExpression.setKey(s.toString());
+                System.out.println("~~~"+s.toString());//
 				doSearch();
 			}});
 	}
 
 	private void updatePreferences() {
+        System.out.println("updatePreferences");
 		SharedPreferences prefs = mPreferences;
 		try {
 			Index.init(getApplicationContext(), mEventHandler);
@@ -274,6 +259,7 @@ public class SearchActivity extends Activity implements OnClickListener, OnItemL
 	
     @Override
 	public boolean onCreateOptionsMenu(Menu menu) {
+        System.out.println("onCreateOptionsMenu");
 		menu.add(0, MENU_RANGE, 0, R.string.menu_range).setIcon(R.drawable.ic_menu_range);
 		menu.add(0, MENU_LAYOUT, 0, R.string.menu_layout).setIcon(android.R.drawable.ic_menu_view);
 		menu.add(0, MENU_RESULT, 0, R.string.menu_result).setIcon(android.R.drawable.ic_menu_slideshow);
@@ -285,6 +271,7 @@ public class SearchActivity extends Activity implements OnClickListener, OnItemL
 
     @Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
+        System.out.println("onPrepareOptionsMenu");
 		menu.findItem(MENU_RANGE).setEnabled(!isRangeLocked);
 		menu.findItem(MENU_RELOAD).setEnabled(Index.getStatus() != Index.STATUS_DESERIALIZING && Index.getStatus() != Index.STATUS_RELOADING);
 		return super.onPrepareOptionsMenu(menu);
@@ -292,6 +279,7 @@ public class SearchActivity extends Activity implements OnClickListener, OnItemL
 
 	@Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        System.out.println("onOptionsItemSelected");
     	switch (item.getItemId()) {
     	case MENU_RESULT:
     		if (isPickMode)
@@ -299,14 +287,14 @@ public class SearchActivity extends Activity implements OnClickListener, OnItemL
     		else
     			showDialog(DIALOG_RESULT);
     		break;
-    	case MENU_SORT:
-    		showDialog(DIALOG_SORT);
-    		break;
-    	case MENU_RANGE:
-    		showDialog(DIALOG_FILTER_RANGE);
-    		break;
-    	case MENU_LAYOUT:
-    		showDialog(DIALOG_LAYOUT);
+            case MENU_SORT:
+                showDialog(DIALOG_SORT);
+                break;
+            case MENU_RANGE:
+                showDialog(DIALOG_FILTER_RANGE);
+                break;
+            case MENU_LAYOUT:
+                showDialog(DIALOG_LAYOUT);
     		break;
     	case MENU_RELOAD:
     		reloadIndex();
@@ -323,6 +311,7 @@ public class SearchActivity extends Activity implements OnClickListener, OnItemL
 
 	@Override
 	protected Dialog onCreateDialog(int id) {
+        System.out.println("onCreateDialog");
 		switch (id) {
 		case DIALOG_OPENAS:
 			return new AlertDialog.Builder(this).setTitle(R.string.dialog_openas_title)
@@ -570,6 +559,7 @@ public class SearchActivity extends Activity implements OnClickListener, OnItemL
 
 	@Override
 	protected void onPrepareDialog(int id, Dialog dialog) {
+        System.out.println("onPrepareDialog");
 		switch (id) {
 		case DIALOG_OPENAS_DELETE:
 			((AlertDialog)dialog).setMessage(getString(R.string.dialog_openas_delete_format, mSelectedMatch.path() + "/" + mSelectedMatch.name()));
@@ -591,7 +581,10 @@ public class SearchActivity extends Activity implements OnClickListener, OnItemL
 	
 	@Override
 	public boolean onSearchRequested() {
+        System.out.println("onSearchRequested");
 		mExpression = new Expression(getApplicationContext());
+
+        //System.out.println(mExpression.getKey());
 		updateUI();
 		mEditSearch.requestFocus();
 		return true;
@@ -599,6 +592,7 @@ public class SearchActivity extends Activity implements OnClickListener, OnItemL
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        System.out.println("onActivityResult");
 		if (requestCode == REQUEST_PREFERENCE) {
 			updatePreferences();
 		} else if (requestCode == REQUEST_HELP) {
@@ -615,10 +609,12 @@ public class SearchActivity extends Activity implements OnClickListener, OnItemL
 	
 	@Override
 	public void onConfigurationChanged(Configuration config) {
+        System.out.println("onConfigurationChanged");
 	    super.onConfigurationChanged(config);
 	}
 	
 	public void onClick(View v) {
+        System.out.println("onClick");
 		if (mButtonStar == v) {
 			if (isSearching) return;
 			if (isPickMode) 
@@ -637,16 +633,19 @@ public class SearchActivity extends Activity implements OnClickListener, OnItemL
 	}
 
 	public void onItemSelected(AdapterView<?> l, View v, int position, long id) {
+        System.out.println("onItemSelected"+position);
 		mListAdapter.setSelected(position);
 		mListAdapter.notifyDataSetChanged();
 	}
 
 	public void onNothingSelected(AdapterView<?> arg0) {
+        System.out.println("onNothingSelected");
 		mListAdapter.setSelected(-1);
 		mListAdapter.notifyDataSetChanged();
 	}
 
 	public void onItemClick(AdapterView<?> l, View v, int position, long id) {
+        System.out.println("onItemClick");
 		if (mSelectedMatch == mSearchResult.get((int)id)) {
 			if (isPickMode) {
 				Intent intent = new Intent();
@@ -676,6 +675,7 @@ public class SearchActivity extends Activity implements OnClickListener, OnItemL
 	}
 
 	public boolean onItemLongClick(AdapterView<?> l, View v, int position, long id) {
+        //System.out.println("onIte");
 		mListAdapter.setSelected(position);
 		mListAdapter.notifyDataSetChanged();
 		mSelectedMatch = mSearchResult.get((int)id);
@@ -684,15 +684,36 @@ public class SearchActivity extends Activity implements OnClickListener, OnItemL
 	}
 	
 	private void doSearch() {
+        System.out.println("doSearch");
 		if (Index.getStatus() == Index.STATUS_READY || Index.getStatus() == Index.STATUS_OBSOLETE) {
 			isSearching = true;
 			Index.interrupt();
+            //System.out.println("result~~~"+mSearchResult);
 			mSearchResult.clear();
-			mExpression.matchAsync();
+
+            String[] str = mExpression.getKey().split(" ");
+            if (str[0].equals("a")) {
+                System.out.println("App Search Mode taking charge");
+                //getAllApps(this);
+                if (str.length > 1 && str[str.length-1].contains(".")) {
+                //Application search end with dot
+                    Intent intent = new Intent();
+                    intent.setClass(SearchActivity.this, AppSearchActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("app_name", str[1]);
+                    intent.putExtras(bundle);// do not support multi keywords presently
+                    startActivity(intent);
+                    //SearchActivity.this.finish();
+                }
+            }
+            else {
+                mExpression.matchAsync();
+            }
 		}
 	}
-	
-	private void doSort() {
+
+    private void doSort() {
+        System.out.println("doSort");
 		Comparator<Match> comparator = mExpression.getSorter();
 		if (comparator != null && mSearchResult != null && mSearchResult.size() > 0) {
 			Collections.sort(mSearchResult, comparator);
@@ -701,6 +722,7 @@ public class SearchActivity extends Activity implements OnClickListener, OnItemL
 	}
 	
 	private void tryReloadIndex() {
+        System.out.println("tryReloadIndex");
 		if (!isSearching && (Index.getStatus() == Index.STATUS_FAILED || Index.getStatus() == Index.STATUS_OBSOLETE)) {
 			if (isReloadWithoutPrompt) {
 				reloadIndex();
@@ -712,6 +734,7 @@ public class SearchActivity extends Activity implements OnClickListener, OnItemL
 	}
 	
 	private void reloadIndex() {
+        System.out.println("reloadIndex");
 		mSearchResult.clear();
 		mTextStatus.setText(SearchActivity.this.getString(R.string.status_reload_start));
 		mButtonStar.setImageResource(R.drawable.button_reloading);
@@ -722,6 +745,7 @@ public class SearchActivity extends Activity implements OnClickListener, OnItemL
 	}
 	
 	private void enterPickMode(int type, boolean lock) {
+        System.out.println("enterPickMode");
 		isPickMode = true;
    		mExpression = new Expression(getApplicationContext());
 		mExpression.setRange(type);
@@ -730,6 +754,7 @@ public class SearchActivity extends Activity implements OnClickListener, OnItemL
 	}
 	
 	private void setLayout(int layout) {
+        System.out.println("setLayout");
 		switch (layout) {
 		case ITEM_LAYOUT_TILE:
 			mListAdapter.setLayout(MatchAdapter.LAYOUT_TILE);
@@ -750,11 +775,13 @@ public class SearchActivity extends Activity implements OnClickListener, OnItemL
 	}
 	
 	private void updateUI() {
+        System.out.println("updateUI");
 		mButtonRange.setImageResource(ICON_BUTTON_RANGE[mExpression.getRange()]);
 		mEditSearch.setText(mExpression.getKey());
 	}
 	
 	private String getStatistics() {
+        System.out.println("getStatistics");
 		long size = 0;
 		HashMap<String, Integer> where = new HashMap<String, Integer>();
 		for (Match m : mSearchResult) {
@@ -776,32 +803,38 @@ public class SearchActivity extends Activity implements OnClickListener, OnItemL
 	}
     
 	/**
-	 * ÅÐ¶ÏÒ»¸ö Intent ÔÚÏµÍ³ÖÐÊÇ·ñÓÐ¶ÔÓ¦µÄ»î¶¯¿ÉÒÔ´¦Àí¡£
-	 * @param intent	Òª½øÐÐÅÐ¶ÏµÄ Intent¡£
-	 * @return	¸Ã Intent ÊÇ·ñ¿ÉÒÔ±»´¦Àí
+	 * ï¿½Ð¶ï¿½Ò»ï¿½ï¿½ Intent ï¿½ï¿½ÏµÍ³ï¿½ï¿½ï¿½Ç·ï¿½ï¿½Ð¶ï¿½Ó¦ï¿½Ä»î¶¯ï¿½ï¿½ï¿½Ô´ï¿½ï¿½?
+	 * @param intent	Òªï¿½ï¿½ï¿½ï¿½ï¿½Ð¶Ïµï¿½ Intentï¿½ï¿½
+	 * @return	ï¿½ï¿½ Intent ï¿½Ç·ï¿½ï¿½ï¿½Ô±ï¿½ï¿½ï¿½ï¿½ï¿½
 	 */
-	private boolean isIntentAvailable(Intent intent) { 
+	private boolean isIntentAvailable(Intent intent) {
+        System.out.println("isIntentAvailable");
 	    final PackageManager packageManager = getPackageManager(); 
 	    List<ResolveInfo> list = packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY); 
 	    return list.size() > 0; 
 	}
 	
 	public class EventHandler extends Handler {
+
 		@Override
 		public void handleMessage(Message msg) {
+            System.out.println("handleMessage");
 			switch (msg.what) {
 			case Matcher.MATCHER_START:
+                System.out.println("MATCHER_START");
 				startTick = System.currentTimeMillis();
 				mSearchResult.clear();
 				mTextStatus.setText(SearchActivity.this.getString(R.string.status_match_start));
 				mButtonStar.setImageResource(R.drawable.button_search_progressing);
 				break;
 			case Matcher.MATCHER_ENTRY:
+                System.out.println("MATCHER_ENTRY");
 				Match matchEntry = (Match)msg.obj;
 				mSearchResult.add(matchEntry);
 				mListAdapter.notifyDataSetChanged();
 				break;
 			case Matcher.MATCHER_FINISHED:
+                System.out.println("MATCHER_FINISHED");
 				isSearching = false;
 				mListAdapter.notifyDataSetChanged();
 				mTextStatus.setText(getString(R.string.status_result_format, mSearchResult.size(), FileInfo.timeString(System.currentTimeMillis() - startTick)));
@@ -812,47 +845,57 @@ public class SearchActivity extends Activity implements OnClickListener, OnItemL
 				doSort();
 				break;
 			case Matcher.MATCHER_NODATA:
+                System.out.println("MATCHER_NODATA");
 				mTextStatus.setText(SearchActivity.this.getString(R.string.status_match_nodata));
 				mButtonStar.setImageResource(R.drawable.button_warning);
 				break;
 			case SoftCache.MESSAGE_CACHE_GOT:
+                System.out.println("MESSAGE_CACHE_GOT");
 				if (isRefreshingInstant) mListAdapter.notifyDataSetChanged();
 				break;
 			case SoftCache.MESSAGE_QUEUE_FINISHED:
+                System.out.println("MESSAGE_QUEUE_FINISHED");
 				mListAdapter.notifyDataSetChanged();
 				break;
 			case Index.MESSAGE_NOSDCARD:
+                System.out.println("MESSAGE_NOSDCARD");
 	            mNotificationManager.cancel(0);
 				mTextStatus.setText(SearchActivity.this.getString(R.string.status_nosdcard));
 				mButtonStar.setImageResource(R.drawable.button_warning);
 				break;
 			case Index.MESSAGE_RELOAD_SUCCESS:
+                System.out.println("MESSAGE_ROLOAD_SUCCESS");
 	            mNotificationManager.cancel(0);
 				mTextStatus.setText(getString(R.string.status_reload_result_format, FileInfo.timeSpanString(System.currentTimeMillis() - Index.reloadTime()), Index.length()));
 				doSearch();
 				break;
 			case Index.MESSAGE_RELOAD_FAILED:
+                System.out.println("MESSAGE_RELOAD_FAILED");
 	            mNotificationManager.cancel(0);
 				mTextStatus.setText(SearchActivity.this.getString(R.string.status_reload_failed));
 				mButtonStar.setImageResource(R.drawable.button_warning);
 				break;
 			case Index.MESSAGE_SERIALIZING_FAILED:
+                System.out.println("MESSAGE_SERIALIZING_FAILED");
 	            mNotificationManager.cancel(0);
 				mTextStatus.setText(SearchActivity.this.getString(R.string.status_serializing_failed));
 				mButtonStar.setImageResource(R.drawable.button_warning);
 				break;
 			case Index.MESSAGE_DESERIALIZING_SUCCESS:
+                System.out.println("MESSAGE_DESERIALIZING_SUCCESS");
 				mTextStatus.setText(getString(R.string.status_reload_result_format, FileInfo.timeSpanString(System.currentTimeMillis() - Index.reloadTime()), Index.length()));
 	            tryReloadIndex();
 				doSearch();
 				break;
 			case Index.MESSAGE_DESERIALIZING_FAILED:
+                System.out.println("MESSAGE_DESERIALIZING_FAILED");
 				mTextStatus.setText(SearchActivity.this.getString(R.string.status_deserializing_failed));
 				mButtonStar.setImageResource(R.drawable.button_warning);
 	            if (isFirstLaunch) reloadIndex();
 	            else tryReloadIndex();
 				break;
 			case Index.MESSAGE_DESERIALIZING_DIFFERENT_VERSION:
+                System.out.println("MESSAGE_DESERIALIZING_DIFFERENT_VERSION");
 				mTextStatus.setText(SearchActivity.this.getString(R.string.status_deserializing_different_version));
 				mButtonStar.setImageResource(R.drawable.button_warning);
 	            tryReloadIndex();

@@ -62,6 +62,10 @@
                 <data android:mimeType="*/*" />
             </intent-filter>
 		</activity>
+
+        <activity android:name=".AppSearchActivity">
+        </activity>
+
         
 		<provider android:name=".ext.GlobalProvider"
 		       android:authorities="collimator"
