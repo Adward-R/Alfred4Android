@@ -3,7 +3,7 @@
       package="com.toraleap.collimator"
       android:versionCode="9"
       android:versionName="1.0.7r2">
-    <application android:icon="@drawable/icon" android:label="@string/app_name">
+    <application android:icon="@drawable/icon" android:label="@string/app_name" android:name=".GlobalContext">
         <activity android:name=".SearchActivity"
                   android:label="@string/app_name"
                   android:theme="@style/Theme.SearchActivity.Wallpaper"
@@ -63,7 +63,8 @@
             </intent-filter>
 		</activity>
 
-        <activity android:name=".AppSearchActivity">
+        <activity android:name=".AppSearchActivity"
+                android:label="">
         </activity>
 
         
@@ -76,7 +77,7 @@
 		<service android:name=".bll.FileScannerService">
 		</service>
 	</application>
-	
+
     <uses-sdk android:minSdkVersion="7" />
 	<uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT"></uses-permission>
 	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>

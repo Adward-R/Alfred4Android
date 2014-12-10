@@ -41,6 +41,7 @@
             android:textSize="18sp"
             android:textStyle="normal"
             android:textColor="@android:color/primary_text_light"
+
 			/>
 			
 		<ImageButton

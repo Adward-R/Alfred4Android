@@ -7,7 +7,10 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.*;
 
@@ -25,23 +28,27 @@ public final class AppSearchActivity extends Activity {
     ListView mListEntries;
     TextView mTextStatus;
 
+    List<Map<String, Object>> apps;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         System.out.println("_____AppSearch______onCreate");
         super.onCreate(savedInstanceState);
         String _appkey = getIntent().getExtras().getString("app_name");
-        String appkey = _appkey.substring(0,_appkey.length()-1); //get rid of the "end-"dot
+        String[] appkey = _appkey.split(" "); //appkey[0] indicates the searching mode
+        System.out.println("Mode: "+appkey[0]);
 
         setContentView(R.layout.app_search_activity);
         mEditSearch = (EditText) findViewById(R.id.EditSearch);
-        mEditSearch.setText(appkey, TextView.BufferType.EDITABLE); //why seems ignored?
+        mEditSearch.setText(_appkey, TextView.BufferType.EDITABLE);
+        mEditSearch.setSelection(_appkey.length()-1);
 
         //initUtils();
         //initViews();
         //Index.deserialization();
 
-        final List<Map<String, Object>> apps = getUserApps(this,appkey);
+        //apps = getUserApps(this,appkey);
+        apps = getUserApps(GlobalContext.getInstance(),appkey);
 
         mTextStatus = (TextView) findViewById(R.id.TextStatus);
         mTextStatus.setText(apps.size()+" applications found.");
@@ -52,58 +59,67 @@ public final class AppSearchActivity extends Activity {
                 new int[] {R.id.thumbnail,R.id.filename,R.id.filepath});
         mListEntries = (ListView) findViewById(R.id.ListEntries);
         mListEntries.setAdapter(mAdapter);
+        mAdapter.setViewBinder(new SimpleAdapter.ViewBinder() {
+            public boolean setViewValue(View view, Object data, String textRepresentation) {
+                if (view instanceof ImageView && data instanceof Drawable) {
+                    ImageView iv = (ImageView) view;
+                    iv.setImageDrawable((Drawable) data);
+                    return true;
+                } else return false;
+            }
+        });
+
         mListEntries.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 try {
                     openApp(apps.get(position).get("pkgName").toString());
+                    //AppSearchActivity.this.finish(); //kill self
                 } catch (PackageManager.NameNotFoundException e) {
                     e.printStackTrace();
                 }
             }
         });
-        //mListEntries.setOnItemSelectedListener(this);
-        System.out.println("Listener Added");
 
-        /*
-        mListEntries = (ListView) findViewById(R.id.ListEntries);
-        BaseAdapter mAdapter = new BaseAdapter() {
+        mEditSearch.addTextChangedListener(new TextWatcher() {
             @Override
-            public int getCount() {
-                return apps.size();
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-            @Override
-            public Object getItem(int position) {
-                return null;
-            }
+                String[] newKey = mEditSearch.getText().toString().split(" ");
 
-            @Override
-            public long getItemId(int position) {
-                return position;
-            }
+                if (newKey[0].equals("a")){
+                    //judge if the displayed app-list is changed
+                    if (!getUserApps(GlobalContext.getInstance(), newKey).equals(apps)){ //or comparing size?
+                        Intent intent = new Intent();
+                        intent.setClass(AppSearchActivity.this,AppSearchActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("app_name", mEditSearch.getText().toString());
+                        intent.putExtras(bundle);
+                        startActivity(intent);
+                        AppSearchActivity.this.finish();
+                    }
+                }
+                //multiple "IF"s can be inserted here for extended functions
+                else{
+                    Intent intent = new Intent();
+                    intent.setClass(AppSearchActivity.this,SearchActivity.class);
+                    //Bundle bundle = new Bundle();
+                    //bundle.putString("app_name", mEditSearch.getText().toString());
+                    //intent.putExtras(bundle);
+                    startActivity(intent);
+                    AppSearchActivity.this.finish();
+                }
 
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                LinearLayout line = new LinearLayout(AppSearchActivity.this);
-                line.setOrientation(LinearLayout.HORIZONTAL);
-                ImageView image = new ImageView(AppSearchActivity.this);
-                image.setImageDrawable((Drawable)apps.get(position).get("pkgIcon"));
-                TextView text = new TextView(AppSearchActivity.this);
-                text.setText("The " + position + " th");
-                text.setTextSize(20);
-                text.setTextColor(Color.RED);
-                line.addView(image);
-                line.addView(text);
-                return line;
             }
-        };
-        mListEntries.setAdapter(mAdapter);*/
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
     }
 
-    public List<Map<String,Object>> getUserApps(Context context,String appkey) {
-        String[] keys = appkey.split(" ");
-
+    //put in a new .java will be better
+    public List<Map<String,Object>> getUserApps(Context context,String[] keys) {
         List<Map<String,Object>> apps = new ArrayList<Map<String,Object>>();
         PackageManager pManager = context.getPackageManager();
         //Obtain all installed app info in the cell phone
@@ -115,8 +131,8 @@ public final class AppSearchActivity extends Activity {
                 // customs applications
                 String pkgLabel = pManager.getApplicationLabel(pak.applicationInfo).toString();
                 int flag = 0;
-                for (int j=0;j<keys.length;j++){
-                    if (pkgLabel.contains(keys[j])){
+                for (int j=1;j<keys.length;j++){
+                    if (pkgLabel.toLowerCase().contains(keys[j].toLowerCase())){
                         flag++;
                         break;
                     }
@@ -137,6 +153,7 @@ public final class AppSearchActivity extends Activity {
         return apps;
     }
 
+    //Cannot open several APPs, such as 微信电话本...
     private void openApp(String packageName) throws PackageManager.NameNotFoundException {
         PackageInfo pi = getPackageManager().getPackageInfo(packageName, 0);
 

@@ -163,6 +163,11 @@ public class SearchActivity extends Activity implements OnClickListener, OnItemL
         System.out.println("InitViews");
        	Intent intent = getIntent();
 		mEditSearch = (EditText)findViewById(R.id.EditSearch);
+		////// causing crash while launching by AppSearchActivity...
+		//if (isIntentAvailable(intent)){
+		//	mEditSearch.setText(getIntent().getExtras().getString("app_name"));
+		//}
+		//////
        	mButtonRange = (ImageButton)findViewById(R.id.ButtonRange);
        	mButtonRange.setOnClickListener(this);
        	// ����Χѡ��ť�Ĵ�����Χ
@@ -230,7 +235,6 @@ public class SearchActivity extends Activity implements OnClickListener, OnItemL
 			public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
 				mExpression.setKey(s.toString());
-                System.out.println("~~~"+s.toString());//
 				doSearch();
 			}});
 	}
@@ -693,18 +697,19 @@ public class SearchActivity extends Activity implements OnClickListener, OnItemL
 
             String[] str = mExpression.getKey().split(" ");
             if (str[0].equals("a")) {
-                System.out.println("App Search Mode taking charge");
+                System.out.println("___App Search Mode taking charge___");
                 //getAllApps(this);
                 if (str.length > 1 && str[str.length-1].endsWith(".")) {
                 //Application search end with dot
                     Intent intent = new Intent();
                     intent.setClass(SearchActivity.this, AppSearchActivity.class);
                     Bundle bundle = new Bundle();
-					String appkey = str[1];
-					for (int i=2;i<str.length;i++){
+					String appkey = str[0];
+					for (int i=1;i<str.length;i++){
 						appkey += " "+str[i];
 					}
-                    bundle.putString("app_name", appkey);
+					//get rid of the "end-"dot
+                    bundle.putString("app_name", appkey.substring(0,appkey.length()-1));
                     intent.putExtras(bundle);// do not support multi keywords presently
                     startActivity(intent);
                     //SearchActivity.this.finish();
