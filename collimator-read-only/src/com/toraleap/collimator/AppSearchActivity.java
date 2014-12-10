@@ -30,25 +30,26 @@ public final class AppSearchActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         System.out.println("_____AppSearch______onCreate");
         super.onCreate(savedInstanceState);
-        String appkey = getIntent().getExtras().getString("app_name").replaceAll(".", "");
+        String _appkey = getIntent().getExtras().getString("app_name");
+        String appkey = _appkey.substring(0,_appkey.length()-1); //get rid of the "end-"dot
 
         setContentView(R.layout.app_search_activity);
         mEditSearch = (EditText) findViewById(R.id.EditSearch);
-        mEditSearch.setText(appkey, TextView.BufferType.EDITABLE);
+        mEditSearch.setText(appkey, TextView.BufferType.EDITABLE); //why seems ignored?
 
-        //TextView mTextStatus = (TextView) findViewById(R.id.TextStatus);
-        //mTextStatus.setText(appkey);
         //initUtils();
         //initViews();
         //Index.deserialization();
 
+        final List<Map<String, Object>> apps = getUserApps(this,appkey);
 
-        final List<Map<String, Object>> apps = getUserApps(this);
+        mTextStatus = (TextView) findViewById(R.id.TextStatus);
+        mTextStatus.setText(apps.size()+" applications found.");
 
         SimpleAdapter mAdapter = new SimpleAdapter(this,apps,
                 R.layout.listitem_apps,
-                new String[] {"pkgIcon","pkgName"},
-                new int[] {R.id.thumbnail,R.id.filename});
+                new String[] {"pkgIcon","pkgLabel","pkgName"},
+                new int[] {R.id.thumbnail,R.id.filename,R.id.filepath});
         mListEntries = (ListView) findViewById(R.id.ListEntries);
         mListEntries.setAdapter(mAdapter);
         mListEntries.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -100,7 +101,9 @@ public final class AppSearchActivity extends Activity {
         mListEntries.setAdapter(mAdapter);*/
     }
 
-    public List<Map<String,Object>> getUserApps(Context context) {
+    public List<Map<String,Object>> getUserApps(Context context,String appkey) {
+        String[] keys = appkey.split(" ");
+
         List<Map<String,Object>> apps = new ArrayList<Map<String,Object>>();
         PackageManager pManager = context.getPackageManager();
         //Obtain all installed app info in the cell phone
@@ -110,14 +113,25 @@ public final class AppSearchActivity extends Activity {
             //See if the app is not pre-installed (user installed)
             if ((pak.applicationInfo.flags & pak.applicationInfo.FLAG_SYSTEM) <= 0) {
                 // customs applications
-                Map<String,Object> listItem = new HashMap<String, Object>();
-                listItem.put("pkgName",pManager.getApplicationLabel(pak.applicationInfo));
+                String pkgLabel = pManager.getApplicationLabel(pak.applicationInfo).toString();
+                int flag = 0;
+                for (int j=0;j<keys.length;j++){
+                    if (pkgLabel.contains(keys[j])){
+                        flag++;
+                        break;
+                    }
+                }
 
-                //listItem.put("pkgInstallTime",)
-                //listItem.put("pkgIcon",pManager.getApplicationIcon(pak));
-                listItem.put("pkgIcon",pak.applicationInfo.loadIcon(pManager));
-                apps.add(listItem);
-                //System.out.println(pManager.getApplicationLabel(paklist.get(i).applicationInfo));
+                if (flag>0) {
+                    Map<String, Object> listItem = new HashMap<String, Object>();
+                    listItem.put("pkgName", pak.packageName);
+                    listItem.put("pkgLabel", pkgLabel);
+                    //listItem.put("pkgInstallTime",)
+                    //listItem.put("pkgIcon",pManager.getApplicationIcon(pak));
+                    listItem.put("pkgIcon", pak.applicationInfo.loadIcon(pManager));
+                    apps.add(listItem);
+                    //System.out.println(pManager.getApplicationLabel(paklist.get(i).applicationInfo));
+                }
             }
         }
         return apps;

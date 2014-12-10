@@ -695,12 +695,16 @@ public class SearchActivity extends Activity implements OnClickListener, OnItemL
             if (str[0].equals("a")) {
                 System.out.println("App Search Mode taking charge");
                 //getAllApps(this);
-                if (str.length > 1 && str[str.length-1].contains(".")) {
+                if (str.length > 1 && str[str.length-1].endsWith(".")) {
                 //Application search end with dot
                     Intent intent = new Intent();
                     intent.setClass(SearchActivity.this, AppSearchActivity.class);
                     Bundle bundle = new Bundle();
-                    bundle.putString("app_name", str[1]);
+					String appkey = str[1];
+					for (int i=2;i<str.length;i++){
+						appkey += " "+str[i];
+					}
+                    bundle.putString("app_name", appkey);
                     intent.putExtras(bundle);// do not support multi keywords presently
                     startActivity(intent);
                     //SearchActivity.this.finish();
