@@ -36,12 +36,12 @@ public final class AppSearchActivity extends Activity {
         super.onCreate(savedInstanceState);
         String _appkey = getIntent().getExtras().getString("app_name");
         String[] appkey = _appkey.split(" "); //appkey[0] indicates the searching mode
-        System.out.println("Mode: "+appkey[0]);
 
         setContentView(R.layout.app_search_activity);
         mEditSearch = (EditText) findViewById(R.id.EditSearch);
         mEditSearch.setText(_appkey, TextView.BufferType.EDITABLE);
-        mEditSearch.setSelection(_appkey.length()-1);
+        mEditSearch.setSelection(_appkey.length());
+        mEditSearch.requestFocus();
 
         //initUtils();
         //initViews();
@@ -91,7 +91,20 @@ public final class AppSearchActivity extends Activity {
 
                 if (newKey[0].equals("a")){
                     //judge if the displayed app-list is changed
-                    if (!getUserApps(GlobalContext.getInstance(), newKey).equals(apps)){ //or comparing size?
+                    int flag=0;
+                    List<Map<String, Object>> newapps = getUserApps(GlobalContext.getInstance(), newKey);
+                    if (newapps.size()!=apps.size()){
+                        flag=1;
+                    }
+                    else{
+                        for (int i=0;i<apps.size();i++){
+                            if (!newapps.get(i).get("pkgName").toString().equals(apps.get(i).get("pkgName").toString())){
+                                flag=1;
+                                break;
+                            }
+                        }
+                    }
+                    if (flag>0){
                         Intent intent = new Intent();
                         intent.setClass(AppSearchActivity.this,AppSearchActivity.class);
                         Bundle bundle = new Bundle();

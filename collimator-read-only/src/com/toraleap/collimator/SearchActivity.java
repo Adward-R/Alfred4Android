@@ -164,9 +164,8 @@ public class SearchActivity extends Activity implements OnClickListener, OnItemL
        	Intent intent = getIntent();
 		mEditSearch = (EditText)findViewById(R.id.EditSearch);
 		////// causing crash while launching by AppSearchActivity...
-		//if (isIntentAvailable(intent)){
-		//	mEditSearch.setText(getIntent().getExtras().getString("app_name"));
-		//}
+		//must verify if Extras exist!
+		//mEditSearch.setText(intent.getExtras().getString("app_name"));
 		//////
        	mButtonRange = (ImageButton)findViewById(R.id.ButtonRange);
        	mButtonRange.setOnClickListener(this);
@@ -688,36 +687,43 @@ public class SearchActivity extends Activity implements OnClickListener, OnItemL
 	}
 	
 	private void doSearch() {
-        System.out.println("doSearch");
+        //System.out.println("doSearch");
 		if (Index.getStatus() == Index.STATUS_READY || Index.getStatus() == Index.STATUS_OBSOLETE) {
 			isSearching = true;
 			Index.interrupt();
-            //System.out.println("result~~~"+mSearchResult);
 			mSearchResult.clear();
 
-            String[] str = mExpression.getKey().split(" ");
-            if (str[0].equals("a")) {
-                System.out.println("___App Search Mode taking charge___");
-                //getAllApps(this);
-                if (str.length > 1 && str[str.length-1].endsWith(".")) {
-                //Application search end with dot
-                    Intent intent = new Intent();
-                    intent.setClass(SearchActivity.this, AppSearchActivity.class);
-                    Bundle bundle = new Bundle();
-					String appkey = str[0];
-					for (int i=1;i<str.length;i++){
-						appkey += " "+str[i];
+			//INTERFACE WITH NEWLY IMPLEMENTED FUNCTIONS
+			mEditSearch.setOnKeyListener(new View.OnKeyListener() {
+				@Override
+				public boolean onKey(View v, int keyCode, KeyEvent event) {
+					if (keyCode==KeyEvent.KEYCODE_ENTER){
+						String[] str = mExpression.getKey().split(" ");
+						if (str[0].equals("a")) {
+							//System.out.println("___App Search Mode taking charge___");
+							if (str.length > 1){
+							//Application search end with ENTER
+								Intent intent = new Intent();
+								intent.setClass(SearchActivity.this, AppSearchActivity.class);
+								Bundle bundle = new Bundle();
+								//String appkey = str[0];
+								//for (int i=1;i<str.length;i++){
+								//	appkey += " "+str[i];
+								//}
+								bundle.putString("app_name", mExpression.getKey());
+								intent.putExtras(bundle);
+								startActivity(intent);
+								//SearchActivity.this.finish();
+							}
+						}
+						return true;
 					}
-					//get rid of the "end-"dot
-                    bundle.putString("app_name", appkey.substring(0,appkey.length()-1));
-                    intent.putExtras(bundle);// do not support multi keywords presently
-                    startActivity(intent);
-                    //SearchActivity.this.finish();
-                }
-            }
-            else {
-                mExpression.matchAsync();
-            }
+					return false;
+				}
+			});
+
+			mExpression.matchAsync();
+
 		}
 	}
 
