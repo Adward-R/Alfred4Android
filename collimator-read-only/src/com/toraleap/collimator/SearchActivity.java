@@ -699,7 +699,7 @@ public class SearchActivity extends Activity implements OnClickListener, OnItemL
 				public boolean onKey(View v, int keyCode, KeyEvent event) {
 					if (keyCode==KeyEvent.KEYCODE_ENTER){
 						String[] str = mExpression.getKey().split(" ");
-						if (str[0].equals("a")) {
+						if (str[0].equals("a")||str[0].equals("c")) {
 							//System.out.println("___App Search Mode taking charge___");
 							if (str.length > 1){
 							//Application search end with ENTER
@@ -710,7 +710,7 @@ public class SearchActivity extends Activity implements OnClickListener, OnItemL
 								//for (int i=1;i<str.length;i++){
 								//	appkey += " "+str[i];
 								//}
-								bundle.putString("app_name", mExpression.getKey());
+								bundle.putString("searchKey", mExpression.getKey());
 								intent.putExtras(bundle);
 								startActivity(intent);
 								//SearchActivity.this.finish();

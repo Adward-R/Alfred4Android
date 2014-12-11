@@ -36,7 +36,7 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Unnamed-0" />
   </component>
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/src/com/toraleap/collimator/AppSearchActivity.java" line="106" mnemonic="9" />
+    <bookmark url="file://$PROJECT_DIR$/src/com/toraleap/collimator/AppSearchActivity.java" line="135" mnemonic="9" />
   </component>
   <component name="ChangeListManager">
     <list default="true" readonly="true" id="bf5fae42-fbf1-421a-98e6-1bd4b185c0a3" name="Default" comment="">
@@ -67,12 +67,19 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="SearchActivity.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="SearchActivity.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/toraleap/collimator/SearchActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="89.55556" vertical-offset="12903" max-vertical-offset="13365">
-              <caret line="734" column="31" selection-start-line="734" selection-start-column="31" selection-end-line="734" selection-end-column="31" />
+            <state vertical-scroll-proportion="0.6451613" vertical-offset="7605" max-vertical-offset="13365">
+              <caret line="558" column="5" selection-start-line="558" selection-start-column="5" selection-end-line="558" selection-end-column="5" />
               <folding>
+                <element signature="e#4467#4492#0" expanded="true" />
+                <element signature="e#4494#4520#0" expanded="true" />
+                <element signature="e#4522#4548#0" expanded="true" />
+                <element signature="e#4550#4576#0" expanded="true" />
+                <element signature="e#4578#4603#0" expanded="true" />
+                <element signature="e#4605#4630#0" expanded="true" />
+                <element signature="e#4632#4657#0" expanded="true" />
                 <element signature="e#7544#7792#0" expanded="true" />
                 <element signature="e#7791#7792#0" expanded="true" />
                 <element signature="e#11512#11545#0" expanded="true" />
@@ -153,15 +160,25 @@
                 <element signature="e#25389#25458#0" expanded="true" />
                 <element signature="e#26796#26824#0" expanded="true" />
                 <element signature="e#28247#28307#0" expanded="true" />
-                <element signature="e#29161#30039#0" expanded="true" />
-                <element signature="e#30038#30039#0" expanded="true" />
-                <element signature="e#30873#30932#0" expanded="true" />
-                <element signature="e#31058#31101#0" expanded="true" />
-                <element signature="e#31103#31159#0" expanded="true" />
-                <element signature="e#32568#32585#0" expanded="true" />
-                <element signature="e#32815#33212#0" expanded="true" />
-                <element signature="e#33040#33154#0" expanded="true" />
-                <element signature="e#33162#33210#0" expanded="true" />
+                <element signature="e#29161#30060#0" expanded="true" />
+                <element signature="e#30059#30060#0" expanded="true" />
+                <element signature="e#30894#30953#0" expanded="true" />
+                <element signature="e#31079#31122#0" expanded="true" />
+                <element signature="e#31124#31180#0" expanded="true" />
+                <element signature="e#32589#32606#0" expanded="true" />
+                <element signature="e#32836#33233#0" expanded="true" />
+                <element signature="e#33061#33175#0" expanded="true" />
+                <element signature="e#33183#33231#0" expanded="true" />
+                <element signature="e#34031#34089#0" expanded="true" />
+                <element signature="e#34565#34688#0" expanded="true" />
+                <element signature="e#35038#35097#0" expanded="true" />
+                <element signature="e#35656#35711#0" expanded="true" />
+                <element signature="e#35955#36092#0" expanded="true" />
+                <element signature="e#36289#36349#0" expanded="true" />
+                <element signature="e#36601#36666#0" expanded="true" />
+                <element signature="e#36879#37016#0" expanded="true" />
+                <element signature="e#37213#37280#0" expanded="true" />
+                <element signature="e#37596#37674#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -194,16 +211,35 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AppSearchActivity.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="AppSearchActivity.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/toraleap/collimator/AppSearchActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.5564516" vertical-offset="993" max-vertical-offset="2685">
-              <caret line="100" column="33" selection-start-line="100" selection-start-column="33" selection-end-line="100" selection-end-column="33" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="1335" max-vertical-offset="3930">
+              <caret line="126" column="21" selection-start-line="126" selection-start-column="21" selection-end-line="126" selection-end-column="21" />
               <folding>
-                <element signature="e#2088#2495#0" expanded="true" />
-                <element signature="e#2494#2495#0" expanded="true" />
+                <element signature="e#2589#3060#0" expanded="true" />
+                <element signature="e#3059#3060#0" expanded="true" />
+                <element signature="e#3649#4506#0" expanded="true" />
+                <element signature="e#4505#4506#0" expanded="true" />
+                <element signature="e#7029#7049#0" expanded="true" />
+                <element signature="e#7986#8002#0" expanded="true" />
+                <element signature="e#9898#9918#0" expanded="true" />
+                <element signature="e#10012#10028#0" expanded="true" />
               </folding>
             </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="listitem_apps.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/res/layout/listitem_apps.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="13.0" vertical-offset="870" max-vertical-offset="1440">
+              <caret line="32" column="0" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+          <provider editor-type-id="android-designer">
+            <state />
           </provider>
         </entry>
       </file>
@@ -230,6 +266,7 @@
         <option value="$PROJECT_DIR$/src/com/toraleap/collimator/GlobalContext.java" />
         <option value="$PROJECT_DIR$/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/res/layout/app_search_activity.xml" />
+        <option value="$PROJECT_DIR$/src/com/toraleap/collimator/AppSearchFunc.java" />
         <option value="$PROJECT_DIR$/src/com/toraleap/collimator/SearchActivity.java" />
         <option value="$PROJECT_DIR$/src/com/toraleap/collimator/AppSearchActivity.java" />
       </list>
@@ -324,28 +361,6 @@
               <option name="myItemId" value="src" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="collimator" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="data" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="collimator-read-only" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="collimator-read-only" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -403,6 +418,7 @@
     <property name="OverrideImplement.overriding.sorted" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_SERIALS" value="emulator-5556" />
+    <property name="FullScreen" value="false" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -700,12 +716,12 @@
       <workItem from="1418106220113" duration="26791000" />
       <workItem from="1418142265557" duration="113000" />
       <workItem from="1418170644997" duration="7217000" />
-      <workItem from="1418189308978" duration="14856000" />
+      <workItem from="1418189308978" duration="22404000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="68638000" />
+    <option name="totallyTimeSpent" value="76186000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="2" y="23" width="1260" height="705" extended-state="0" />
@@ -771,17 +787,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/res/layout/search_activity.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="180" max-vertical-offset="1380">
-          <caret line="12" column="9" selection-start-line="12" selection-start-column="9" selection-end-line="12" selection-end-column="9" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/toraleap/collimator/ui/MatchAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="2190" max-vertical-offset="2670">
@@ -808,6 +813,13 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="2520" max-vertical-offset="13770">
           <caret line="168" column="35" selection-start-line="168" selection-start-column="35" selection-end-line="168" selection-end-column="35" />
           <folding>
+            <element signature="e#4467#4492#0" expanded="true" />
+            <element signature="e#4494#4520#0" expanded="true" />
+            <element signature="e#4522#4548#0" expanded="true" />
+            <element signature="e#4550#4576#0" expanded="true" />
+            <element signature="e#4578#4603#0" expanded="true" />
+            <element signature="e#4605#4630#0" expanded="true" />
+            <element signature="e#4632#4657#0" expanded="true" />
             <element signature="e#7544#7792#0" expanded="true" />
             <element signature="e#7791#7792#0" expanded="true" />
             <element signature="e#11512#11545#0" expanded="true" />
@@ -888,15 +900,25 @@
             <element signature="e#25389#25458#0" expanded="true" />
             <element signature="e#26796#26824#0" expanded="true" />
             <element signature="e#28247#28307#0" expanded="true" />
-            <element signature="e#29161#30039#0" expanded="true" />
-            <element signature="e#30038#30039#0" expanded="true" />
-            <element signature="e#30873#30932#0" expanded="true" />
-            <element signature="e#31058#31101#0" expanded="true" />
-            <element signature="e#31103#31159#0" expanded="true" />
-            <element signature="e#32568#32585#0" expanded="true" />
-            <element signature="e#32815#33212#0" expanded="true" />
-            <element signature="e#33040#33154#0" expanded="true" />
-            <element signature="e#33162#33210#0" expanded="true" />
+            <element signature="e#29161#30060#0" expanded="true" />
+            <element signature="e#30059#30060#0" expanded="true" />
+            <element signature="e#30894#30953#0" expanded="true" />
+            <element signature="e#31079#31122#0" expanded="true" />
+            <element signature="e#31124#31180#0" expanded="true" />
+            <element signature="e#32589#32606#0" expanded="true" />
+            <element signature="e#32836#33233#0" expanded="true" />
+            <element signature="e#33061#33175#0" expanded="true" />
+            <element signature="e#33183#33231#0" expanded="true" />
+            <element signature="e#34031#34089#0" expanded="true" />
+            <element signature="e#34565#34688#0" expanded="true" />
+            <element signature="e#35038#35097#0" expanded="true" />
+            <element signature="e#35656#35711#0" expanded="true" />
+            <element signature="e#35955#36092#0" expanded="true" />
+            <element signature="e#36289#36349#0" expanded="true" />
+            <element signature="e#36601#36666#0" expanded="true" />
+            <element signature="e#36879#37016#0" expanded="true" />
+            <element signature="e#37213#37280#0" expanded="true" />
+            <element signature="e#37596#37674#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -945,6 +967,13 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="1920" max-vertical-offset="13200">
           <caret line="165" column="36" selection-start-line="165" selection-start-column="36" selection-end-line="165" selection-end-column="36" />
           <folding>
+            <element signature="e#4467#4492#0" expanded="true" />
+            <element signature="e#4494#4520#0" expanded="true" />
+            <element signature="e#4522#4548#0" expanded="true" />
+            <element signature="e#4550#4576#0" expanded="true" />
+            <element signature="e#4578#4603#0" expanded="true" />
+            <element signature="e#4605#4630#0" expanded="true" />
+            <element signature="e#4632#4657#0" expanded="true" />
             <element signature="e#7544#7792#0" expanded="true" />
             <element signature="e#7791#7792#0" expanded="true" />
             <element signature="e#11512#11545#0" expanded="true" />
@@ -1025,15 +1054,25 @@
             <element signature="e#25389#25458#0" expanded="true" />
             <element signature="e#26796#26824#0" expanded="true" />
             <element signature="e#28247#28307#0" expanded="true" />
-            <element signature="e#29161#30039#0" expanded="true" />
-            <element signature="e#30038#30039#0" expanded="true" />
-            <element signature="e#30873#30932#0" expanded="true" />
-            <element signature="e#31058#31101#0" expanded="true" />
-            <element signature="e#31103#31159#0" expanded="true" />
-            <element signature="e#32568#32585#0" expanded="true" />
-            <element signature="e#32815#33212#0" expanded="true" />
-            <element signature="e#33040#33154#0" expanded="true" />
-            <element signature="e#33162#33210#0" expanded="true" />
+            <element signature="e#29161#30060#0" expanded="true" />
+            <element signature="e#30059#30060#0" expanded="true" />
+            <element signature="e#30894#30953#0" expanded="true" />
+            <element signature="e#31079#31122#0" expanded="true" />
+            <element signature="e#31124#31180#0" expanded="true" />
+            <element signature="e#32589#32606#0" expanded="true" />
+            <element signature="e#32836#33233#0" expanded="true" />
+            <element signature="e#33061#33175#0" expanded="true" />
+            <element signature="e#33183#33231#0" expanded="true" />
+            <element signature="e#34031#34089#0" expanded="true" />
+            <element signature="e#34565#34688#0" expanded="true" />
+            <element signature="e#35038#35097#0" expanded="true" />
+            <element signature="e#35656#35711#0" expanded="true" />
+            <element signature="e#35955#36092#0" expanded="true" />
+            <element signature="e#36289#36349#0" expanded="true" />
+            <element signature="e#36601#36666#0" expanded="true" />
+            <element signature="e#36879#37016#0" expanded="true" />
+            <element signature="e#37213#37280#0" expanded="true" />
+            <element signature="e#37596#37674#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1064,6 +1103,13 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="13020">
           <caret line="149" column="20" selection-start-line="149" selection-start-column="20" selection-end-line="149" selection-end-column="20" />
           <folding>
+            <element signature="e#4467#4492#0" expanded="true" />
+            <element signature="e#4494#4520#0" expanded="true" />
+            <element signature="e#4522#4548#0" expanded="true" />
+            <element signature="e#4550#4576#0" expanded="true" />
+            <element signature="e#4578#4603#0" expanded="true" />
+            <element signature="e#4605#4630#0" expanded="true" />
+            <element signature="e#4632#4657#0" expanded="true" />
             <element signature="e#7544#7792#0" expanded="true" />
             <element signature="e#7791#7792#0" expanded="true" />
             <element signature="e#11512#11545#0" expanded="true" />
@@ -1144,15 +1190,25 @@
             <element signature="e#25389#25458#0" expanded="true" />
             <element signature="e#26796#26824#0" expanded="true" />
             <element signature="e#28247#28307#0" expanded="true" />
-            <element signature="e#29161#30039#0" expanded="true" />
-            <element signature="e#30038#30039#0" expanded="true" />
-            <element signature="e#30873#30932#0" expanded="true" />
-            <element signature="e#31058#31101#0" expanded="true" />
-            <element signature="e#31103#31159#0" expanded="true" />
-            <element signature="e#32568#32585#0" expanded="true" />
-            <element signature="e#32815#33212#0" expanded="true" />
-            <element signature="e#33040#33154#0" expanded="true" />
-            <element signature="e#33162#33210#0" expanded="true" />
+            <element signature="e#29161#30060#0" expanded="true" />
+            <element signature="e#30059#30060#0" expanded="true" />
+            <element signature="e#30894#30953#0" expanded="true" />
+            <element signature="e#31079#31122#0" expanded="true" />
+            <element signature="e#31124#31180#0" expanded="true" />
+            <element signature="e#32589#32606#0" expanded="true" />
+            <element signature="e#32836#33233#0" expanded="true" />
+            <element signature="e#33061#33175#0" expanded="true" />
+            <element signature="e#33183#33231#0" expanded="true" />
+            <element signature="e#34031#34089#0" expanded="true" />
+            <element signature="e#34565#34688#0" expanded="true" />
+            <element signature="e#35038#35097#0" expanded="true" />
+            <element signature="e#35656#35711#0" expanded="true" />
+            <element signature="e#35955#36092#0" expanded="true" />
+            <element signature="e#36289#36349#0" expanded="true" />
+            <element signature="e#36601#36666#0" expanded="true" />
+            <element signature="e#36879#37016#0" expanded="true" />
+            <element signature="e#37213#37280#0" expanded="true" />
+            <element signature="e#37596#37674#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1374,17 +1430,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/listitem_apps.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="543" max-vertical-offset="1440">
-          <caret line="83" column="50" selection-start-line="83" selection-start-column="50" selection-end-line="83" selection-end-column="50" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/toraleap/collimator/data/Match.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1635">
@@ -1416,11 +1461,59 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/listitem_apps.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="13.0" vertical-offset="870" max-vertical-offset="1440">
+          <caret line="32" column="0" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/app_search_activity.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-15.0" vertical-offset="195" max-vertical-offset="1380">
+          <caret line="43" column="0" selection-start-line="43" selection-start-column="0" selection-end-line="43" selection-end-column="0" />
+          <folding>
+            <element signature="e#2375#2399#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/toraleap/collimator/AppSearchActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1335" max-vertical-offset="3930">
+          <caret line="126" column="21" selection-start-line="126" selection-start-column="21" selection-end-line="126" selection-end-column="21" />
+          <folding>
+            <element signature="e#2589#3060#0" expanded="true" />
+            <element signature="e#3059#3060#0" expanded="true" />
+            <element signature="e#3649#4506#0" expanded="true" />
+            <element signature="e#4505#4506#0" expanded="true" />
+            <element signature="e#7029#7049#0" expanded="true" />
+            <element signature="e#7986#8002#0" expanded="true" />
+            <element signature="e#9898#9918#0" expanded="true" />
+            <element signature="e#10012#10028#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/toraleap/collimator/SearchActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="89.55556" vertical-offset="12903" max-vertical-offset="13365">
-          <caret line="734" column="31" selection-start-line="734" selection-start-column="31" selection-end-line="734" selection-end-column="31" />
+        <state vertical-scroll-proportion="0.6451613" vertical-offset="7605" max-vertical-offset="13365">
+          <caret line="558" column="5" selection-start-line="558" selection-start-column="5" selection-end-line="558" selection-end-column="5" />
           <folding>
+            <element signature="e#4467#4492#0" expanded="true" />
+            <element signature="e#4494#4520#0" expanded="true" />
+            <element signature="e#4522#4548#0" expanded="true" />
+            <element signature="e#4550#4576#0" expanded="true" />
+            <element signature="e#4578#4603#0" expanded="true" />
+            <element signature="e#4605#4630#0" expanded="true" />
+            <element signature="e#4632#4657#0" expanded="true" />
             <element signature="e#7544#7792#0" expanded="true" />
             <element signature="e#7791#7792#0" expanded="true" />
             <element signature="e#11512#11545#0" expanded="true" />
@@ -1501,39 +1594,25 @@
             <element signature="e#25389#25458#0" expanded="true" />
             <element signature="e#26796#26824#0" expanded="true" />
             <element signature="e#28247#28307#0" expanded="true" />
-            <element signature="e#29161#30039#0" expanded="true" />
-            <element signature="e#30038#30039#0" expanded="true" />
-            <element signature="e#30873#30932#0" expanded="true" />
-            <element signature="e#31058#31101#0" expanded="true" />
-            <element signature="e#31103#31159#0" expanded="true" />
-            <element signature="e#32568#32585#0" expanded="true" />
-            <element signature="e#32815#33212#0" expanded="true" />
-            <element signature="e#33040#33154#0" expanded="true" />
-            <element signature="e#33162#33210#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/app_search_activity.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-15.0" vertical-offset="195" max-vertical-offset="1380">
-          <caret line="43" column="0" selection-start-line="43" selection-start-column="0" selection-end-line="43" selection-end-column="0" />
-          <folding>
-            <element signature="e#2375#2399#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/toraleap/collimator/AppSearchActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5564516" vertical-offset="993" max-vertical-offset="2685">
-          <caret line="100" column="33" selection-start-line="100" selection-start-column="33" selection-end-line="100" selection-end-column="33" />
-          <folding>
-            <element signature="e#2088#2495#0" expanded="true" />
-            <element signature="e#2494#2495#0" expanded="true" />
+            <element signature="e#29161#30060#0" expanded="true" />
+            <element signature="e#30059#30060#0" expanded="true" />
+            <element signature="e#30894#30953#0" expanded="true" />
+            <element signature="e#31079#31122#0" expanded="true" />
+            <element signature="e#31124#31180#0" expanded="true" />
+            <element signature="e#32589#32606#0" expanded="true" />
+            <element signature="e#32836#33233#0" expanded="true" />
+            <element signature="e#33061#33175#0" expanded="true" />
+            <element signature="e#33183#33231#0" expanded="true" />
+            <element signature="e#34031#34089#0" expanded="true" />
+            <element signature="e#34565#34688#0" expanded="true" />
+            <element signature="e#35038#35097#0" expanded="true" />
+            <element signature="e#35656#35711#0" expanded="true" />
+            <element signature="e#35955#36092#0" expanded="true" />
+            <element signature="e#36289#36349#0" expanded="true" />
+            <element signature="e#36601#36666#0" expanded="true" />
+            <element signature="e#36879#37016#0" expanded="true" />
+            <element signature="e#37213#37280#0" expanded="true" />
+            <element signature="e#37596#37674#0" expanded="true" />
           </folding>
         </state>
       </provider>
