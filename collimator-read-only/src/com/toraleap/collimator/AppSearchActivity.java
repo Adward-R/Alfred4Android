@@ -90,8 +90,8 @@ public final class AppSearchActivity extends Activity {
 
                 mAdapter = new SimpleAdapter(this,apps,
                         R.layout.listitem_apps,
-                        new String[] {"contactPhoto","contactName","contactPhoneNum"},
-                        new int[] {R.id.thumbnail,R.id.filename,R.id.filepath});
+                        new String[] {/*"contactPhoto",*/"contactName","contactPhoneNum"},
+                        new int[] {/*R.id.thumbnail,*/R.id.filename,R.id.filepath});
                 mListEntries.setAdapter(mAdapter);
                 mAdapter.setViewBinder(new SimpleAdapter.ViewBinder() {
                     public boolean setViewValue(View view, Object data, String textRepresentation) {
@@ -182,8 +182,8 @@ public final class AppSearchActivity extends Activity {
                     List<Map<String, Object>> newcontacts = getUserContacts(newKey);
                     SimpleAdapter newAdapter = new SimpleAdapter(GlobalContext.getInstance(),newcontacts,
                             R.layout.listitem_apps,
-                            new String[] {"contactPhoto","contactName","contactPhoneNum"},
-                            new int[] {R.id.thumbnail,R.id.filename,R.id.filepath});
+                            new String[] {/*"contactPhoto",*/"contactName","contactPhoneNum"},
+                            new int[] {/*R.id.thumbnail,*/R.id.filename,R.id.filepath});
                     mListEntries.setAdapter(newAdapter);
                     newAdapter.setViewBinder(new SimpleAdapter.ViewBinder() {
                         public boolean setViewValue(View view, Object data, String textRepresentation) {
@@ -281,11 +281,12 @@ public final class AppSearchActivity extends Activity {
         }
     }
 
-    public List<Map<String,Object>> getUserContacts(String[] keys) { //Search has not implemented yet
+    public List<Map<String,Object>> getUserContacts(String[] keys) {
         Uri uri = Uri.parse("content://com.android.contacts/contacts");
         ContentResolver resolver = this.getContentResolver();
         Cursor cursor = resolver.query(uri, new String[] { "_id" }, null, null, null);
         List<Map<String,Object>> contacts = new ArrayList<Map<String,Object>>();
+
         while (cursor.moveToNext()) {
             Map<String,Object> contact = new HashMap<String, Object>();
             int contactID = cursor.getInt(0);
@@ -294,7 +295,7 @@ public final class AppSearchActivity extends Activity {
                     + contactID + "/data");
             Cursor cursor1 = resolver.query(uri, new String[] { "mimetype",
                     "data1", "data2" }, null, null, null);
-            int flag=0; //indicates if the item should be put into the result list
+            int flag1=0,flag2=0; //indicates if the item should be put into the result list
 
             while (cursor1.moveToNext()){
                 String data1 = cursor1.getString(cursor1.getColumnIndex("data1"));
@@ -302,28 +303,49 @@ public final class AppSearchActivity extends Activity {
 
                 if ("vnd.android.cursor.item/name".equals(mimeType)) { // Is name
                     //Judge if the search key suits the name of contact
+                    if (data1==null){
+                        continue;
+                    }
                     for (int j=1;j<keys.length;j++){
                         if (!data1.toLowerCase().contains(keys[j].toLowerCase())){
-                            flag++;
+                            flag1++;
                             break;
                         }
                     }
                     contact.put("contactName",data1);
                 } /*
                 else if ("vnd.android.cursor.item/email_v2".equals(mimeType)) { // Is Email
+                    if (data1==null){
+                        continue;
+                    }
                     if (!TextUtils.isEmpty(data1)) {
                         contact.put("contactMail",data1);
                     }
                 } */
                 else if ("vnd.android.cursor.item/phone_v2".equals(mimeType)) { // Is Phone Number
-                    contact.put("contactPhoneNum",data1.replaceAll("[- ]", ""));
-                }
+                    if (data1==null){
+                        continue;
+                    }
+                    String phoneNum = data1.replaceAll("[- +]", "");
+                    for (int j=1;j<keys.length;j++){
+                        if (!phoneNum.contains(keys[j])){
+                            flag2++;
+                            break;
+                        }
+                    }
+                    //System.out.println("~~"+data1+"~~");
+                    contact.put("contactPhoneNum",phoneNum);
+                }/*
                 else if ("vnd.android.cursor.item/photo".equals(mimeType)){
+                    if (data1==null){
+                        continue;
+                    }
+                    System.out.println("__PHOTO GET");
                     contact.put("contactPhoto",data1);
-                }
+                }*/
 
             }
-            if (flag==0) {
+            if (flag1==0||flag2==0) {
                 contacts.add(contact);
             }
             cursor1.close();
