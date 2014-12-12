@@ -38,6 +38,7 @@
   <component name="ChangeListManager">
     <list default="true" readonly="true" id="bf5fae42-fbf1-421a-98e6-1bd4b185c0a3" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/AndroidManifest.xml" afterPath="$PROJECT_DIR$/AndroidManifest.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/toraleap/collimator/AppSearchActivity.java" afterPath="$PROJECT_DIR$/src/com/toraleap/collimator/AppSearchActivity.java" />
     </list>
     <ignored path="collimator-read-only.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -89,7 +90,7 @@
       <file leaf-file-name="AndroidManifest.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="862" max-vertical-offset="1470">
+            <state vertical-scroll-proportion="0.0" vertical-offset="1071" max-vertical-offset="1470">
               <caret line="58" column="27" selection-start-line="58" selection-start-column="27" selection-end-line="58" selection-end-column="27" />
               <folding />
             </state>
@@ -112,18 +113,20 @@
       <file leaf-file-name="AppSearchActivity.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/toraleap/collimator/AppSearchActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.32330826" vertical-offset="1221" max-vertical-offset="4230">
-              <caret line="90" column="42" selection-start-line="90" selection-start-column="42" selection-end-line="90" selection-end-column="42" />
+            <state vertical-scroll-proportion="0.7368421" vertical-offset="3966" max-vertical-offset="4500">
+              <caret line="284" column="17" selection-start-line="284" selection-start-column="17" selection-end-line="284" selection-end-column="17" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#2589#3060#0" expanded="true" />
                 <element signature="e#3059#3060#0" expanded="true" />
-                <element signature="e#3649#4506#0" expanded="true" />
-                <element signature="e#4505#4506#0" expanded="true" />
-                <element signature="e#7029#7049#0" expanded="true" />
-                <element signature="e#7986#8002#0" expanded="true" />
-                <element signature="e#9898#9918#0" expanded="true" />
-                <element signature="e#10012#10028#0" expanded="true" />
+                <element signature="e#3690#4547#0" expanded="true" />
+                <element signature="e#4546#4547#0" expanded="true" />
+                <element signature="e#6278#6917#0" expanded="true" />
+                <element signature="e#6916#6917#0" expanded="true" />
+                <element signature="e#8471#8491#0" expanded="true" />
+                <element signature="e#9430#9446#0" expanded="true" />
+                <element signature="e#11342#11362#0" expanded="true" />
+                <element signature="e#11456#11472#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -629,12 +632,12 @@
       <workItem from="1418170644997" duration="7217000" />
       <workItem from="1418189308978" duration="14856000" />
       <workItem from="1418288401774" duration="4137000" />
-      <workItem from="1418310955948" duration="3293000" />
+      <workItem from="1418310955948" duration="5200000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="76068000" />
+    <option name="totallyTimeSpent" value="77975000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="2" y="23" width="1260" height="705" extended-state="0" />
@@ -1090,18 +1093,20 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/toraleap/collimator/AppSearchActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.32330826" vertical-offset="1221" max-vertical-offset="4230">
-          <caret line="90" column="42" selection-start-line="90" selection-start-column="42" selection-end-line="90" selection-end-column="42" />
+        <state vertical-scroll-proportion="0.7368421" vertical-offset="3966" max-vertical-offset="4500">
+          <caret line="284" column="17" selection-start-line="284" selection-start-column="17" selection-end-line="284" selection-end-column="17" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#2589#3060#0" expanded="true" />
             <element signature="e#3059#3060#0" expanded="true" />
-            <element signature="e#3649#4506#0" expanded="true" />
-            <element signature="e#4505#4506#0" expanded="true" />
-            <element signature="e#7029#7049#0" expanded="true" />
-            <element signature="e#7986#8002#0" expanded="true" />
-            <element signature="e#9898#9918#0" expanded="true" />
-            <element signature="e#10012#10028#0" expanded="true" />
+            <element signature="e#3690#4547#0" expanded="true" />
+            <element signature="e#4546#4547#0" expanded="true" />
+            <element signature="e#6278#6917#0" expanded="true" />
+            <element signature="e#6916#6917#0" expanded="true" />
+            <element signature="e#8471#8491#0" expanded="true" />
+            <element signature="e#9430#9446#0" expanded="true" />
+            <element signature="e#11342#11362#0" expanded="true" />
+            <element signature="e#11456#11472#0" expanded="true" />
           </folding>
         </state>
       </provider>

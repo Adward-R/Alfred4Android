@@ -95,7 +95,7 @@ public final class AppSearchActivity extends Activity {
                 mListEntries.setAdapter(mAdapter);
                 break;
             }
-            default:;
+            default:; //how to get back to normal search mode?
         }
 
 
@@ -131,6 +131,7 @@ public final class AppSearchActivity extends Activity {
 
                 String[] newKey = mEditSearch.getText().toString().split(" ");
 
+                //When no search keyword is offered, the result should be all user installed apps (seems already is?)
                 if (newKey[0].equals("a")){
                     //judge if the displayed app-list is changed
                     int flag=0;
@@ -146,18 +147,35 @@ public final class AppSearchActivity extends Activity {
                             }
                         }
                     }
-                    if (flag>0){
-                        Intent intent = new Intent();
-                        intent.setClass(AppSearchActivity.this,AppSearchActivity.class);
-                        Bundle bundle = new Bundle();
-                        bundle.putString("searchKey", mEditSearch.getText().toString());
-                        intent.putExtras(bundle);
-                        startActivity(intent);
-                        AppSearchActivity.this.finish();
+                    if (true){//if (flag>0){ //if the adapter must be refreshed
+                        SimpleAdapter newAdapter = new SimpleAdapter(GlobalContext.getInstance(),newapps,
+                                R.layout.listitem_apps,
+                                new String[] {"pkgIcon","pkgLabel","pkgName"},
+                                new int[] {R.id.thumbnail,R.id.filename,R.id.filepath});
+                        mListEntries.setAdapter(newAdapter);
+                        newAdapter.setViewBinder(new SimpleAdapter.ViewBinder() {
+                            public boolean setViewValue(View view, Object data, String textRepresentation) {
+                                if (view instanceof ImageView && data instanceof Drawable) {
+                                    ImageView iv = (ImageView) view;
+                                    iv.setImageDrawable((Drawable) data);
+                                    return true;
+                                }
+                                else {
+                                    return false;
+                                }
+                            }
+                        });
+                        mTextStatus.setText(newapps.size()+" applications found.");
                     }
                 }
                 else if (newKey[0].equals("c")){
-                    int flag=0;
+                    List<Map<String, Object>> newcontacts = getUserContacts(newKey);
+                    SimpleAdapter newAdapter = new SimpleAdapter(GlobalContext.getInstance(),newcontacts,
+                            R.layout.listitem_apps,
+                            new String[] {"pkgIcon","pkgLabel","pkgName"},
+                            new int[] {R.id.thumbnail,R.id.filename,R.id.filepath});
+                    mListEntries.setAdapter(newAdapter);
+                    mTextStatus.setText(newcontacts.size()+" contacts found.");
                 }
                 //multiple "IF"s can be inserted here for extended functions
                 else{
@@ -167,7 +185,7 @@ public final class AppSearchActivity extends Activity {
                     //bundle.putString("searchKey", mEditSearch.getText().toString());
                     //intent.putExtras(bundle);
                     startActivity(intent);
-                    AppSearchActivity.this.finish();
+                    //AppSearchActivity.this.finish();
                 }
 
             }
@@ -190,13 +208,13 @@ public final class AppSearchActivity extends Activity {
                 String pkgLabel = pManager.getApplicationLabel(pak.applicationInfo).toString();
                 int flag = 0;
                 for (int j=1;j<keys.length;j++){
-                    if (pkgLabel.toLowerCase().contains(keys[j].toLowerCase())){
+                    if (!pkgLabel.toLowerCase().contains(keys[j].toLowerCase())){
                         flag++;
                         break;
                     }
                 }
 
-                if (flag>0) {
+                if (flag==0) {
                     Map<String, Object> listItem = new HashMap<String, Object>();
                     listItem.put("pkgName", pak.packageName);
                     listItem.put("pkgLabel", pkgLabel);
@@ -263,7 +281,7 @@ public final class AppSearchActivity extends Activity {
                     }
                 } */
                 else if ("vnd.android.cursor.item/phone_v2".equals(mimeType)) { // Is Phone Number
-                    contact.put("contactPhoneNum",data1.replaceAll("-", ""));
+                    contact.put("contactPhoneNum",data1.replaceAll("[- ]", ""));
                 }
 
             }
