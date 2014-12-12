@@ -176,6 +176,18 @@ public final class AppSearchActivity extends Activity {
                             new String[] {"pkgIcon","pkgLabel","pkgName"},
                             new int[] {R.id.thumbnail,R.id.filename,R.id.filepath});
                     mListEntries.setAdapter(newAdapter);
+                    /*newAdapter.setViewBinder(new SimpleAdapter.ViewBinder() {
+                        public boolean setViewValue(View view, Object data, String textRepresentation) {
+                            if (view instanceof ImageView && data instanceof Drawable) {
+                                ImageView iv = (ImageView) view;
+                                iv.setImageDrawable((Drawable) data);
+                                return true;
+                            }
+                            else {
+                                return false;
+                            }
+                        }
+                    });*/
                     mTextStatus.setText(newcontacts.size()+" contacts found.");
                 }
                 //multiple "IF"s can be inserted here for extended functions
@@ -268,12 +280,20 @@ public final class AppSearchActivity extends Activity {
                     + contactID + "/data");
             Cursor cursor1 = resolver.query(uri, new String[] { "mimetype",
                     "data1", "data2" }, null, null, null);
+            int flag=0; //indicates if the item should be put into the result list
 
             while (cursor1.moveToNext()){
                 String data1 = cursor1.getString(cursor1.getColumnIndex("data1"));
                 String mimeType = cursor1.getString(cursor1.getColumnIndex("mimetype"));
 
                 if ("vnd.android.cursor.item/name".equals(mimeType)) { // Is name
+                    //Judge if the search key suits the name of contact
+                    for (int j=1;j<keys.length;j++){
+                        if (!data1.toLowerCase().contains(keys[j].toLowerCase())){
+                            flag++;
+                            break;
+                        }
+                    }
                     contact.put("contactName",data1);
                 } /*
                 else if ("vnd.android.cursor.item/email_v2".equals(mimeType)) { // Is Email
@@ -286,7 +306,9 @@ public final class AppSearchActivity extends Activity {
                 }
 
             }
-            contacts.add(contact);
+            if (flag==0) {
+                contacts.add(contact);
+            }
             cursor1.close();
         }
         cursor.close();
