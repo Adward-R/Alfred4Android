@@ -200,14 +200,19 @@ public final class AppSearchActivity extends Activity {
                     mTextStatus.setText(newcontacts.size()+" contacts found.");
                 }
                 //multiple "IF"s can be inserted here for extended functions
-                else{
+                else{/*
                     Intent intent = new Intent();
-                    intent.setClass(AppSearchActivity.this,SearchActivity.class);
+                    intent.setClass(getApplicationContext(),SearchActivity.class);//
                     //Bundle bundle = new Bundle();
                     //bundle.putString("searchKey", mEditSearch.getText().toString());
                     //intent.putExtras(bundle);
                     startActivity(intent);
-                    //AppSearchActivity.this.finish();
+                    //AppSearchActivity.this.finish();*/
+                    try {
+                        openApp(getPackageName());
+                    } catch (PackageManager.NameNotFoundException e) {
+                        e.printStackTrace();
+                    }
                 }
 
             }

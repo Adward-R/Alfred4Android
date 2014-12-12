@@ -38,6 +38,7 @@
   <component name="ChangeListManager">
     <list default="true" readonly="true" id="bf5fae42-fbf1-421a-98e6-1bd4b185c0a3" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/toraleap/collimator/AppSearchActivity.java" afterPath="$PROJECT_DIR$/src/com/toraleap/collimator/AppSearchActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/toraleap/collimator/SearchActivity.java" afterPath="$PROJECT_DIR$/src/com/toraleap/collimator/SearchActivity.java" />
     </list>
     <ignored path="collimator-read-only.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -63,11 +64,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="SearchActivity.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="SearchActivity.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/toraleap/collimator/SearchActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="9600" max-vertical-offset="12960">
-              <caret line="716" column="29" selection-start-line="716" selection-start-column="29" selection-end-line="716" selection-end-column="29" />
+            <state vertical-scroll-proportion="0.60150373" vertical-offset="2790" max-vertical-offset="12975">
+              <caret line="238" column="35" selection-start-line="238" selection-start-column="35" selection-end-line="238" selection-end-column="35" />
               <folding />
             </state>
           </provider>
@@ -109,11 +110,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AppSearchActivity.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="AppSearchActivity.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/toraleap/collimator/AppSearchActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-4.150376" vertical-offset="4626" max-vertical-offset="5025">
-              <caret line="198" column="23" selection-start-line="198" selection-start-column="23" selection-end-line="198" selection-end-column="23" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="2916" max-vertical-offset="5100">
+              <caret line="214" column="21" selection-start-line="214" selection-start-column="21" selection-end-line="214" selection-end-column="21" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#2589#3060#0" expanded="true" />
@@ -126,10 +127,10 @@
                 <element signature="e#7460#7461#0" expanded="true" />
                 <element signature="e#8158#8753#0" expanded="true" />
                 <element signature="e#8752#8753#0" expanded="true" />
-                <element signature="e#9674#9694#0" expanded="true" />
-                <element signature="e#10633#10649#0" expanded="true" />
-                <element signature="e#12545#12565#0" expanded="true" />
-                <element signature="e#12659#12675#0" expanded="true" />
+                <element signature="e#9896#9916#0" expanded="true" />
+                <element signature="e#10855#10871#0" expanded="true" />
+                <element signature="e#12767#12787#0" expanded="true" />
+                <element signature="e#12881#12897#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -157,9 +158,9 @@
       <list>
         <option value="$PROJECT_DIR$/src/com/toraleap/collimator/GlobalContext.java" />
         <option value="$PROJECT_DIR$/res/layout/app_search_activity.xml" />
-        <option value="$PROJECT_DIR$/src/com/toraleap/collimator/SearchActivity.java" />
         <option value="$PROJECT_DIR$/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/src/com/toraleap/collimator/AppSearchActivity.java" />
+        <option value="$PROJECT_DIR$/src/com/toraleap/collimator/SearchActivity.java" />
       </list>
     </option>
   </component>
@@ -635,12 +636,12 @@
       <workItem from="1418170644997" duration="7217000" />
       <workItem from="1418189308978" duration="14856000" />
       <workItem from="1418288401774" duration="4137000" />
-      <workItem from="1418310955948" duration="7721000" />
+      <workItem from="1418310955948" duration="9056000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="80496000" />
+    <option name="totallyTimeSpent" value="81831000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="2" y="23" width="1260" height="705" extended-state="0" />
@@ -1078,14 +1079,6 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/toraleap/collimator/SearchActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="9600" max-vertical-offset="12960">
-          <caret line="716" column="29" selection-start-line="716" selection-start-column="29" selection-end-line="716" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="862" max-vertical-offset="1470">
@@ -1096,8 +1089,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/toraleap/collimator/AppSearchActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.150376" vertical-offset="4626" max-vertical-offset="5025">
-          <caret line="198" column="23" selection-start-line="198" selection-start-column="23" selection-end-line="198" selection-end-column="23" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="2916" max-vertical-offset="5100">
+          <caret line="214" column="21" selection-start-line="214" selection-start-column="21" selection-end-line="214" selection-end-column="21" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#2589#3060#0" expanded="true" />
@@ -1110,11 +1103,19 @@
             <element signature="e#7460#7461#0" expanded="true" />
             <element signature="e#8158#8753#0" expanded="true" />
             <element signature="e#8752#8753#0" expanded="true" />
-            <element signature="e#9674#9694#0" expanded="true" />
-            <element signature="e#10633#10649#0" expanded="true" />
-            <element signature="e#12545#12565#0" expanded="true" />
-            <element signature="e#12659#12675#0" expanded="true" />
+            <element signature="e#9896#9916#0" expanded="true" />
+            <element signature="e#10855#10871#0" expanded="true" />
+            <element signature="e#12767#12787#0" expanded="true" />
+            <element signature="e#12881#12897#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/toraleap/collimator/SearchActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.60150373" vertical-offset="2790" max-vertical-offset="12975">
+          <caret line="238" column="35" selection-start-line="238" selection-start-column="35" selection-end-line="238" selection-end-column="35" />
+          <folding />
         </state>
       </provider>
     </entry>

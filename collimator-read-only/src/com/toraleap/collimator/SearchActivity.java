@@ -236,6 +236,7 @@ public class SearchActivity extends Activity implements OnClickListener, OnItemL
 				mExpression.setKey(s.toString());
 				doSearch();
 			}});
+		mEditSearch.requestFocus();
 	}
 
 	private void updatePreferences() {
