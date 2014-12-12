@@ -90,9 +90,18 @@ public final class AppSearchActivity extends Activity {
 
                 mAdapter = new SimpleAdapter(this,apps,
                         R.layout.listitem_apps,
-                        new String[] {"contactName","contactPhoneNum"},
-                        new int[] {R.id.filename,R.id.filepath});
+                        new String[] {"contactPhoto","contactName","contactPhoneNum"},
+                        new int[] {R.id.thumbnail,R.id.filename,R.id.filepath});
                 mListEntries.setAdapter(mAdapter);
+                mAdapter.setViewBinder(new SimpleAdapter.ViewBinder() {
+                    public boolean setViewValue(View view, Object data, String textRepresentation) {
+                        if (view instanceof ImageView && data instanceof Drawable) {
+                            ImageView iv = (ImageView) view;
+                            iv.setImageDrawable((Drawable) data);
+                            return true;
+                        } else return false;
+                    }
+                });
                 break;
             }
             default:; //how to get back to normal search mode?
@@ -173,10 +182,10 @@ public final class AppSearchActivity extends Activity {
                     List<Map<String, Object>> newcontacts = getUserContacts(newKey);
                     SimpleAdapter newAdapter = new SimpleAdapter(GlobalContext.getInstance(),newcontacts,
                             R.layout.listitem_apps,
-                            new String[] {"pkgIcon","pkgLabel","pkgName"},
+                            new String[] {"contactPhoto","contactName","contactPhoneNum"},
                             new int[] {R.id.thumbnail,R.id.filename,R.id.filepath});
                     mListEntries.setAdapter(newAdapter);
-                    /*newAdapter.setViewBinder(new SimpleAdapter.ViewBinder() {
+                    newAdapter.setViewBinder(new SimpleAdapter.ViewBinder() {
                         public boolean setViewValue(View view, Object data, String textRepresentation) {
                             if (view instanceof ImageView && data instanceof Drawable) {
                                 ImageView iv = (ImageView) view;
@@ -187,7 +196,7 @@ public final class AppSearchActivity extends Activity {
                                 return false;
                             }
                         }
-                    });*/
+                    });
                     mTextStatus.setText(newcontacts.size()+" contacts found.");
                 }
                 //multiple "IF"s can be inserted here for extended functions
@@ -303,6 +312,9 @@ public final class AppSearchActivity extends Activity {
                 } */
                 else if ("vnd.android.cursor.item/phone_v2".equals(mimeType)) { // Is Phone Number
                     contact.put("contactPhoneNum",data1.replaceAll("[- ]", ""));
+                }
+                else if ("vnd.android.cursor.item/photo".equals(mimeType)){
+                    contact.put("contactPhoto",data1);
                 }
 
             }
