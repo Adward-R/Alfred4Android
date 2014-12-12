@@ -2,12 +2,15 @@ package com.toraleap.collimator;
 
 import android.app.Activity;
 import android.content.ComponentName;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.database.Cursor;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -24,9 +27,11 @@ import java.util.Map;
  */
 public final class AppSearchActivity extends Activity {
 
+    int mode;
     EditText mEditSearch;
     ListView mListEntries;
     TextView mTextStatus;
+    SimpleAdapter mAdapter;
 
     List<Map<String, Object>> apps;
 
@@ -34,7 +39,7 @@ public final class AppSearchActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         System.out.println("_____AppSearch______onCreate");
         super.onCreate(savedInstanceState);
-        String _appkey = getIntent().getExtras().getString("app_name");
+        String _appkey = getIntent().getExtras().getString("searchKey");
         String[] appkey = _appkey.split(" "); //appkey[0] indicates the searching mode
 
         setContentView(R.layout.app_search_activity);
@@ -42,36 +47,82 @@ public final class AppSearchActivity extends Activity {
         mEditSearch.setText(_appkey, TextView.BufferType.EDITABLE);
         mEditSearch.setSelection(_appkey.length());
         mEditSearch.requestFocus();
-
-        apps = getUserApps(GlobalContext.getInstance(),appkey);
-
         mTextStatus = (TextView) findViewById(R.id.TextStatus);
-        mTextStatus.setText(apps.size()+" applications found.");
-
-        SimpleAdapter mAdapter = new SimpleAdapter(this,apps,
-                R.layout.listitem_apps,
-                new String[] {"pkgIcon","pkgLabel","pkgName"},
-                new int[] {R.id.thumbnail,R.id.filename,R.id.filepath});
         mListEntries = (ListView) findViewById(R.id.ListEntries);
-        mListEntries.setAdapter(mAdapter);
-        mAdapter.setViewBinder(new SimpleAdapter.ViewBinder() {
-            public boolean setViewValue(View view, Object data, String textRepresentation) {
-                if (view instanceof ImageView && data instanceof Drawable) {
-                    ImageView iv = (ImageView) view;
-                    iv.setImageDrawable((Drawable) data);
-                    return true;
-                } else return false;
+
+<<<<<<< HEAD
+        apps = getUserApps(GlobalContext.getInstance(),appkey);
+=======
+        if (appkey[0].equals("a")){
+            mode = 1;//App Search Mode
+        }
+        else if (appkey[0].equals("c")){
+            mode = 2;//Contact Search Mode
+        }
+        //EXTENDED FUNCTIONS MUST ADD "ELSE-IF" CLAUSE HERE
+        else{
+            mode = 0;
+        }
+
+        //EXTENDED FUNCTIONS MUST ADD "CASE" CLAUSE HERE
+        switch (mode){
+            case 1:{
+                //apps = getUserApps(this,appkey);
+                apps = getUserApps(GlobalContext.getInstance(),appkey);
+                mTextStatus.setText(apps.size()+" applications found.");
+>>>>>>> Contact-Search
+
+                mAdapter = new SimpleAdapter(this,apps,
+                        R.layout.listitem_apps,
+                        new String[] {"pkgIcon","pkgLabel","pkgName"},
+                        new int[] {R.id.thumbnail,R.id.filename,R.id.filepath});
+                mListEntries.setAdapter(mAdapter);
+                mAdapter.setViewBinder(new SimpleAdapter.ViewBinder() {
+                    public boolean setViewValue(View view, Object data, String textRepresentation) {
+                        if (view instanceof ImageView && data instanceof Drawable) {
+                            ImageView iv = (ImageView) view;
+                            iv.setImageDrawable((Drawable) data);
+                            return true;
+                        } else return false;
+                    }
+                });
+                break;
             }
-        });
+            case 2:{
+                apps = getUserContacts(appkey);
+                mTextStatus.setText(apps.size()+" contacts found.");
+
+                mAdapter = new SimpleAdapter(this,apps,
+                        R.layout.listitem_apps,
+                        new String[] {"contactName","contactPhoneNum"},
+                        new int[] {R.id.filename,R.id.filepath});
+                mListEntries.setAdapter(mAdapter);
+                break;
+            }
+            default:; //how to get back to normal search mode?
+        }
+
+
+
 
         mListEntries.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                try {
-                    openApp(apps.get(position).get("pkgName").toString());
-                    //AppSearchActivity.this.finish(); //kill self
-                } catch (PackageManager.NameNotFoundException e) {
-                    e.printStackTrace();
+                //EXTENDED FUNCTIONS MUST ADD "CASE" CLAUSE HERE
+                switch (mode){
+                    case 1: {
+                        try {
+                            openApp(apps.get(position).get("pkgName").toString());
+                            //AppSearchActivity.this.finish(); //kill self
+                        } catch (PackageManager.NameNotFoundException e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                    }
+                    case 2: {
+                        //make phone call or send messages
+                        break;
+                    }
                 }
             }
         });
@@ -83,6 +134,10 @@ public final class AppSearchActivity extends Activity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
                 String[] newKey = mEditSearch.getText().toString().split(" ");
+<<<<<<< HEAD
+=======
+
+>>>>>>> Contact-Search
                 //When no search keyword is offered, the result should be all user installed apps (seems already is?)
                 if (newKey[0].equals("a")){
                     //judge if the displayed app-list is changed
@@ -111,18 +166,34 @@ public final class AppSearchActivity extends Activity {
                                     ImageView iv = (ImageView) view;
                                     iv.setImageDrawable((Drawable) data);
                                     return true;
+<<<<<<< HEAD
                                 } else return false;
+=======
+                                }
+                                else {
+                                    return false;
+                                }
+>>>>>>> Contact-Search
                             }
                         });
                         mTextStatus.setText(newapps.size()+" applications found.");
                     }
+                }
+                else if (newKey[0].equals("c")){
+                    List<Map<String, Object>> newcontacts = getUserContacts(newKey);
+                    SimpleAdapter newAdapter = new SimpleAdapter(GlobalContext.getInstance(),newcontacts,
+                            R.layout.listitem_apps,
+                            new String[] {"pkgIcon","pkgLabel","pkgName"},
+                            new int[] {R.id.thumbnail,R.id.filename,R.id.filepath});
+                    mListEntries.setAdapter(newAdapter);
+                    mTextStatus.setText(newcontacts.size()+" contacts found.");
                 }
                 //multiple "IF"s can be inserted here for extended functions
                 else{
                     Intent intent = new Intent();
                     intent.setClass(AppSearchActivity.this,SearchActivity.class);
                     //Bundle bundle = new Bundle();
-                    //bundle.putString("app_name", mEditSearch.getText().toString());
+                    //bundle.putString("searchKey", mEditSearch.getText().toString());
                     //intent.putExtras(bundle);
                     startActivity(intent);
                     //AppSearchActivity.this.finish();
@@ -192,5 +263,43 @@ public final class AppSearchActivity extends Activity {
             intent.setComponent(cn);
             startActivity(intent);
         }
+    }
+
+    public List<Map<String,Object>> getUserContacts(String[] keys) { //Search has not implemented yet
+        Uri uri = Uri.parse("content://com.android.contacts/contacts");
+        ContentResolver resolver = this.getContentResolver();
+        Cursor cursor = resolver.query(uri, new String[] { "_id" }, null, null, null);
+        List<Map<String,Object>> contacts = new ArrayList<Map<String,Object>>();
+        while (cursor.moveToNext()) {
+            Map<String,Object> contact = new HashMap<String, Object>();
+            int contactID = cursor.getInt(0);
+            contact.put("contactID",contactID);
+            uri = Uri.parse("content://com.android.contacts/contacts/"
+                    + contactID + "/data");
+            Cursor cursor1 = resolver.query(uri, new String[] { "mimetype",
+                    "data1", "data2" }, null, null, null);
+
+            while (cursor1.moveToNext()){
+                String data1 = cursor1.getString(cursor1.getColumnIndex("data1"));
+                String mimeType = cursor1.getString(cursor1.getColumnIndex("mimetype"));
+
+                if ("vnd.android.cursor.item/name".equals(mimeType)) { // Is name
+                    contact.put("contactName",data1);
+                } /*
+                else if ("vnd.android.cursor.item/email_v2".equals(mimeType)) { // Is Email
+                    if (!TextUtils.isEmpty(data1)) {
+                        contact.put("contactMail",data1);
+                    }
+                } */
+                else if ("vnd.android.cursor.item/phone_v2".equals(mimeType)) { // Is Phone Number
+                    contact.put("contactPhoneNum",data1.replaceAll("[- ]", ""));
+                }
+
+            }
+            contacts.add(contact);
+            cursor1.close();
+        }
+        cursor.close();
+        return contacts;
     }
 }
