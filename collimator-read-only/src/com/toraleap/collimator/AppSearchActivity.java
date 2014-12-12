@@ -126,8 +126,12 @@ public final class AppSearchActivity extends Activity {
                     }
                     case 2: {
                         //make phone call or send messages
+                        String phoneNum = apps.get(position).get("contactPhoneNum").toString();
+                        Intent intent = new Intent(Intent.ACTION_CALL,Uri.parse("tel:"+phoneNum));
+                        startActivity(intent);
                         break;
                     }
+                    default:;
                 }
             }
         });
@@ -304,7 +308,7 @@ public final class AppSearchActivity extends Activity {
                 if ("vnd.android.cursor.item/name".equals(mimeType)) { // Is name
                     //Judge if the search key suits the name of contact
                     if (data1==null){
-                        continue;
+                        break;
                     }
                     for (int j=1;j<keys.length;j++){
                         if (!data1.toLowerCase().contains(keys[j].toLowerCase())){
@@ -316,7 +320,7 @@ public final class AppSearchActivity extends Activity {
                 } /*
                 else if ("vnd.android.cursor.item/email_v2".equals(mimeType)) { // Is Email
                     if (data1==null){
-                        continue;
+                        break;
                     }
                     if (!TextUtils.isEmpty(data1)) {
                         contact.put("contactMail",data1);
@@ -324,7 +328,7 @@ public final class AppSearchActivity extends Activity {
                 } */
                 else if ("vnd.android.cursor.item/phone_v2".equals(mimeType)) { // Is Phone Number
                     if (data1==null){
-                        continue;
+                        break;
                     }
                     String phoneNum = data1.replaceAll("[- +]", "");
                     for (int j=1;j<keys.length;j++){
@@ -338,7 +342,7 @@ public final class AppSearchActivity extends Activity {
                 }/*
                 else if ("vnd.android.cursor.item/photo".equals(mimeType)){
                     if (data1==null){
-                        continue;
+                        break;
                     }
                     System.out.println("__PHOTO GET");
                     contact.put("contactPhoto",data1);
