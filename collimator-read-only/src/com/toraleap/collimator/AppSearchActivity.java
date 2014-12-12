@@ -50,9 +50,6 @@ public final class AppSearchActivity extends Activity {
         mTextStatus = (TextView) findViewById(R.id.TextStatus);
         mListEntries = (ListView) findViewById(R.id.ListEntries);
 
-<<<<<<< HEAD
-        apps = getUserApps(GlobalContext.getInstance(),appkey);
-=======
         if (appkey[0].equals("a")){
             mode = 1;//App Search Mode
         }
@@ -70,7 +67,6 @@ public final class AppSearchActivity extends Activity {
                 //apps = getUserApps(this,appkey);
                 apps = getUserApps(GlobalContext.getInstance(),appkey);
                 mTextStatus.setText(apps.size()+" applications found.");
->>>>>>> Contact-Search
 
                 mAdapter = new SimpleAdapter(this,apps,
                         R.layout.listitem_apps,
@@ -134,10 +130,8 @@ public final class AppSearchActivity extends Activity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
                 String[] newKey = mEditSearch.getText().toString().split(" ");
-<<<<<<< HEAD
-=======
 
->>>>>>> Contact-Search
+
                 //When no search keyword is offered, the result should be all user installed apps (seems already is?)
                 if (newKey[0].equals("a")){
                     //judge if the displayed app-list is changed
@@ -166,14 +160,10 @@ public final class AppSearchActivity extends Activity {
                                     ImageView iv = (ImageView) view;
                                     iv.setImageDrawable((Drawable) data);
                                     return true;
-<<<<<<< HEAD
-                                } else return false;
-=======
                                 }
                                 else {
                                     return false;
                                 }
->>>>>>> Contact-Search
                             }
                         });
                         mTextStatus.setText(newapps.size()+" applications found.");
