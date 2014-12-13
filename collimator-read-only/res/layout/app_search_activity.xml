@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:orientation="vertical"
 	android:layout_width="fill_parent" 
 	android:layout_height="fill_parent"
@@ -10,6 +10,7 @@
 		android:layout_width="fill_parent" 
 		android:layout_height="wrap_content"
        	android:background="@drawable/search_plate"
+		android:layout_alignParentTop="true"
 		>
 			
 		<ImageButton 
@@ -58,6 +59,22 @@
 			/>
 	</RelativeLayout>
 
+	<TextView
+			android:text="@string/status_default"
+			android:id="@+id/TextStatus"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:paddingLeft="6sp"
+			android:background="@drawable/search_status_default"
+			android:gravity="center_vertical|left"
+			android:textColor="#FFFFFFFF"
+			android:shadowColor="#C0000000"
+			android:shadowDx="0"
+			android:shadowDy="0"
+			android:shadowRadius="3.0"
+			android:layout_alignParentBottom="true"
+			/>
+
 	<ListView
 		android:id="@+id/ListEntries" 
 		android:fastScrollEnabled="true" 
@@ -68,20 +85,9 @@
 		android:layout_width="fill_parent" 
 		android:layout_height="wrap_content"
         android:listSelector="@android:color/transparent"
+		android:layout_below="@id/SearchPanel"
+		android:layout_above="@id/TextStatus"
 		/>
 	
-	<TextView 
-		android:text="@string/status_default" 
-		android:id="@+id/TextStatus" 
-		android:layout_width="fill_parent" 
-		android:layout_height="wrap_content"
-		android:paddingLeft="6sp"
-       	android:background="@drawable/search_status_default"
-        android:gravity="center_vertical|left"
-		android:textColor="#FFFFFFFF"
-		android:shadowColor="#C0000000"
-		android:shadowDx="0"
-		android:shadowDy="0"
-		android:shadowRadius="3.0"
-		/>
-</LinearLayout>
+
+</RelativeLayout>
