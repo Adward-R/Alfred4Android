@@ -125,14 +125,26 @@ public final class AppSearchActivity extends Activity {
                         break;
                     }
                     case 2: {
-                        //make phone call or send messages
-                        String phoneNum = apps.get(position).get("contactPhoneNum").toString();
-                        Intent intent = new Intent(Intent.ACTION_CALL,Uri.parse("tel:"+phoneNum));
-                        startActivity(intent);
+                        //send messages
+                        Uri uri = Uri.parse("smsto:" + apps.get(position).get("contactPhoneNum").toString());
+                        Intent sendIntent = new Intent(Intent.ACTION_VIEW, uri);
+                        startActivity(sendIntent);
                         break;
                     }
                     default:;
                 }
+            }
+        });
+
+        mListEntries.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                if (mode==2){
+                    String phoneNum = apps.get(position).get("contactPhoneNum").toString();
+                    Intent callIntent = new Intent(Intent.ACTION_CALL,Uri.parse("tel:"+phoneNum));
+                    startActivity(callIntent);
+                }
+                return false;
             }
         });
 
