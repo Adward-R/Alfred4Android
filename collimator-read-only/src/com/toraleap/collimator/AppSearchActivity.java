@@ -356,7 +356,7 @@ public final class AppSearchActivity extends Activity {
                     if (data1==null){
                         break;
                     }
-                    System.out.println("__PHOTO GET");
+                    System.out.println("__PHOTO GET");2
                     contact.put("contactPhoto",data1);
                 }*/
 

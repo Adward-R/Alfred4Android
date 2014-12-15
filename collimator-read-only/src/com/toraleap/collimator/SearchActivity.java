@@ -1,13 +1,14 @@
 package com.toraleap.collimator;
 
 import android.app.*;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.SharedPreferences;
+import android.content.*;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
+import android.database.Cursor;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -96,6 +97,7 @@ public class SearchActivity extends Activity implements OnClickListener, OnItemL
 	final EventHandler mEventHandler = new EventHandler();
 	final List<Match> mSearchResult = new ArrayList<Match>();
 	MatchAdapter mListAdapter;
+	SimpleAdapter mAdapter;
 	// ��ǰ״̬����
 	Match mSelectedMatch;
 	Expression mExpression;
@@ -117,6 +119,9 @@ public class SearchActivity extends Activity implements OnClickListener, OnItemL
 	GridView mListEntries;
 	TextView mTextStatus;
 
+	List<Map<String, Object>> apps;
+	int mode;
+
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         System.out.println("_______________________onCreate");
@@ -128,6 +133,7 @@ public class SearchActivity extends Activity implements OnClickListener, OnItemL
        	initUtils();
        	initViews();
        	Index.deserialization();
+		mode = 0;
     }
 	
 	@Override
@@ -650,40 +656,64 @@ public class SearchActivity extends Activity implements OnClickListener, OnItemL
 
 	public void onItemClick(AdapterView<?> l, View v, int position, long id) {
         System.out.println("onItemClick");
-		if (mSelectedMatch == mSearchResult.get((int)id)) {
-			if (isPickMode) {
-				Intent intent = new Intent();
-				intent.setData(Uri.fromFile(new File(mSelectedMatch.path(), mSelectedMatch.name())));
-				intent.putExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI, Uri.fromFile(new File(mSelectedMatch.path(), mSelectedMatch.name())));
-				this.setResult(RESULT_OK, intent);
-				finish();
-			} else {
-				if (isTapView) {
-					Intent intent = new Intent();
-					intent.setAction(Intent.ACTION_VIEW);
-					intent.setDataAndType(Uri.fromFile(new File(mSelectedMatch.path(), mSelectedMatch.name())), FileInfo.mimeType(mSelectedMatch.name()));
-					if (isIntentAvailable(intent)) {
-						startActivity(intent);
-					} else {
-						Toast.makeText(SearchActivity.this, getResources().getString(R.string.dialog_openas_unavailable), Toast.LENGTH_SHORT).show();
-					}
-				} else {
-					showDialog(DIALOG_OPENAS);
-				}
+		if (mode==1){
+			try {
+				openApp(apps.get(position).get("pkgName").toString());
+			} catch (PackageManager.NameNotFoundException e) {
+				e.printStackTrace(); //need a dialog
 			}
-		} else {
-			mListAdapter.setSelected(position);
-			mListAdapter.notifyDataSetChanged();
-			mSelectedMatch = mSearchResult.get((int)id);
+		}
+		else if(mode==2){
+			//send messages
+			Uri uri = Uri.parse("smsto:" + apps.get(position).get("contactPhoneNum").toString());
+			Intent sendIntent = new Intent(Intent.ACTION_VIEW, uri);
+			startActivity(sendIntent);
+		}
+		else {
+			if (mSelectedMatch == mSearchResult.get((int) id)) {
+				if (isPickMode) {
+					Intent intent = new Intent();
+					intent.setData(Uri.fromFile(new File(mSelectedMatch.path(), mSelectedMatch.name())));
+					intent.putExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI, Uri.fromFile(new File(mSelectedMatch.path(), mSelectedMatch.name())));
+					this.setResult(RESULT_OK, intent);
+					finish();
+				} else {
+					if (isTapView) {
+						Intent intent = new Intent();
+						intent.setAction(Intent.ACTION_VIEW);
+						intent.setDataAndType(Uri.fromFile(new File(mSelectedMatch.path(), mSelectedMatch.name())), FileInfo.mimeType(mSelectedMatch.name()));
+						if (isIntentAvailable(intent)) {
+							startActivity(intent);
+						} else {
+							Toast.makeText(SearchActivity.this, getResources().getString(R.string.dialog_openas_unavailable), Toast.LENGTH_SHORT).show();
+						}
+					} else {
+						showDialog(DIALOG_OPENAS);
+					}
+				}
+			} else {
+				mListAdapter.setSelected(position);
+				mListAdapter.notifyDataSetChanged();
+				mSelectedMatch = mSearchResult.get((int) id);
+			}
 		}
 	}
 
 	public boolean onItemLongClick(AdapterView<?> l, View v, int position, long id) {
-        //System.out.println("onIte");
-		mListAdapter.setSelected(position);
-		mListAdapter.notifyDataSetChanged();
-		mSelectedMatch = mSearchResult.get((int)id);
-    	showDialog(DIALOG_OPENAS);
+		if (mode==1){
+
+		}
+		else if (mode==2){
+			String phoneNum = apps.get(position).get("contactPhoneNum").toString();
+			Intent callIntent = new Intent(Intent.ACTION_CALL,Uri.parse("tel:"+phoneNum));
+			startActivity(callIntent);
+		}
+		else {
+			mListAdapter.setSelected(position);
+			mListAdapter.notifyDataSetChanged();
+			mSelectedMatch = mSearchResult.get((int) id);
+			showDialog(DIALOG_OPENAS);
+		}
 		return false;
 	}
 	
@@ -695,35 +725,64 @@ public class SearchActivity extends Activity implements OnClickListener, OnItemL
 			mSearchResult.clear();
 
 			//INTERFACE WITH NEWLY IMPLEMENTED FUNCTIONS
-			mEditSearch.setOnKeyListener(new View.OnKeyListener() {
-				@Override
-				public boolean onKey(View v, int keyCode, KeyEvent event) {
-					if (keyCode==KeyEvent.KEYCODE_ENTER){
-						String[] str = mExpression.getKey().split(" ");
-						if (str[0].equals("a")||str[0].equals("c")) {
-							//System.out.println("___App Search Mode taking charge___");
-							if (str.length > 1){
-							//Application search end with ENTER
-								Intent intent = new Intent();
-								intent.setClass(SearchActivity.this, AppSearchActivity.class);
-								Bundle bundle = new Bundle();
-								//String appkey = str[0];
-								//for (int i=1;i<str.length;i++){
-								//	appkey += " "+str[i];
-								//}
-								bundle.putString("searchKey", mExpression.getKey());
-								intent.putExtras(bundle);
-								startActivity(intent);
-								//SearchActivity.this.finish();
-							}
-						}
-						return true;
-					}
-					return false;
+			String key = mExpression.getKey();
+			String[] str = key.split(" ");
+			if (str[0].equals("a")&&(str.length>1||key.equals("a"+" "))) {
+				//System.out.println("___Alternative Search Modes taking charge___");
+				mode = 1;
+				if (str.length>1) {
+					apps = getUserApps(GlobalContext.getInstance(),str);
 				}
-			});
-
-			mExpression.matchAsync();
+				else {
+					String _str[] = {"a", ""};
+					apps = getUserApps(GlobalContext.getInstance(),_str);
+				}
+				mAdapter = new SimpleAdapter(GlobalContext.getInstance(),apps,
+						R.layout.listitem_apps,
+						new String[] {"pkgIcon","pkgLabel","pkgName"},
+						new int[] {R.id.thumbnail,R.id.filename,R.id.filepath});
+				mListEntries.setAdapter(mAdapter);
+				mAdapter.setViewBinder(new SimpleAdapter.ViewBinder() {
+					public boolean setViewValue(View view, Object data, String textRepresentation) {
+						if (view instanceof ImageView && data instanceof Drawable) {
+							ImageView iv = (ImageView) view;
+							iv.setImageDrawable((Drawable) data);
+							return true;
+						} else return false;
+					}
+				});
+				mTextStatus.setText(apps.size()+" applications found.");
+			}
+			else if (str[0].equals("c")&&(str.length>1||key.equals("c"+" "))){
+				mode = 2;
+				if (str.length>1) {
+					apps = getUserContacts(str);
+				}
+				else {
+					String _str[] = {"c", ""};
+					apps = getUserContacts(_str);
+				}
+				mAdapter = new SimpleAdapter(this,apps,
+						R.layout.listitem_apps,
+						new String[] {/*"contactPhoto",*/"contactName","contactPhoneNum"},
+						new int[] {/*R.id.thumbnail,*/R.id.filename,R.id.filepath});
+				mListEntries.setAdapter(mAdapter);
+				mAdapter.setViewBinder(new SimpleAdapter.ViewBinder() {
+					public boolean setViewValue(View view, Object data, String textRepresentation) {
+						if (view instanceof ImageView && data instanceof Drawable) {
+							ImageView iv = (ImageView) view;
+							iv.setImageDrawable((Drawable) data);
+							return true;
+						} else return false;
+					}
+				});
+				mTextStatus.setText(apps.size()+" contacts found.");
+			}
+			else {
+				mode = 0;
+				mListEntries.setAdapter(mListAdapter);
+				mExpression.matchAsync();
+			}
 
 		}
 	}
@@ -918,5 +977,136 @@ public class SearchActivity extends Activity implements OnClickListener, OnItemL
 				break;
 			}
 		}
+	}
+
+	public List<Map<String,Object>> getUserApps(Context context,String[] keys) {
+		List<Map<String,Object>> apps = new ArrayList<Map<String,Object>>();
+		PackageManager pManager = context.getPackageManager();
+		//Obtain all installed app info in the cell phone
+		List<PackageInfo> paklist = pManager.getInstalledPackages(0);
+		for (int i = 0; i < paklist.size(); i++) {
+			PackageInfo pak = paklist.get(i);
+			//See if the app is not pre-installed (user installed)
+			if ((pak.applicationInfo.flags & pak.applicationInfo.FLAG_SYSTEM) <= 0) {
+				// customs applications
+				String pkgLabel = pManager.getApplicationLabel(pak.applicationInfo).toString();
+				int flag = 0;
+				for (int j=1;j<keys.length;j++){
+					if (!pkgLabel.toLowerCase().contains(keys[j].toLowerCase())){
+						flag++;
+						break;
+					}
+				}
+
+				if (flag==0) {
+					Map<String, Object> listItem = new HashMap<String, Object>();
+					listItem.put("pkgName", pak.packageName);
+					listItem.put("pkgLabel", pkgLabel);
+					//listItem.put("pkgInstallTime",)
+					//listItem.put("pkgIcon",pManager.getApplicationIcon(pak));
+					listItem.put("pkgIcon", pak.applicationInfo.loadIcon(pManager));
+					apps.add(listItem);
+					//System.out.println(pManager.getApplicationLabel(paklist.get(i).applicationInfo));
+				}
+			}
+		}
+		return apps;
+	}
+
+	private void openApp(String packageName) throws PackageManager.NameNotFoundException {
+		PackageInfo pi = getPackageManager().getPackageInfo(packageName, 0);
+
+		Intent resolveIntent = new Intent(Intent.ACTION_MAIN, null);
+		resolveIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+		resolveIntent.setPackage(pi.packageName);
+
+		List<ResolveInfo> apps = getPackageManager().queryIntentActivities(resolveIntent, 0);
+
+		ResolveInfo ri = apps.iterator().next();
+		if (ri != null ) {
+			String pkgName = ri.activityInfo.packageName;
+			String className = ri.activityInfo.name;
+
+			Intent intent = new Intent(Intent.ACTION_MAIN);
+			intent.addCategory(Intent.CATEGORY_LAUNCHER);
+
+			ComponentName cn = new ComponentName(pkgName, className);
+
+			intent.setComponent(cn);
+			startActivity(intent);
+		}
+	}
+
+	public List<Map<String,Object>> getUserContacts(String[] keys) {
+		Uri uri = Uri.parse("content://com.android.contacts/contacts");
+		ContentResolver resolver = this.getContentResolver();
+		Cursor cursor = resolver.query(uri, new String[] { "_id" }, null, null, null);
+		List<Map<String,Object>> contacts = new ArrayList<Map<String,Object>>();
+
+		while (cursor.moveToNext()) {
+			Map<String,Object> contact = new HashMap<String, Object>();
+			int contactID = cursor.getInt(0);
+			contact.put("contactID",contactID);
+			uri = Uri.parse("content://com.android.contacts/contacts/"
+					+ contactID + "/data");
+			Cursor cursor1 = resolver.query(uri, new String[] { "mimetype",
+					"data1", "data2" }, null, null, null);
+			int flag1=0,flag2=0; //indicates if the item should be put into the result list
+
+			while (cursor1.moveToNext()){
+				String data1 = cursor1.getString(cursor1.getColumnIndex("data1"));
+				String mimeType = cursor1.getString(cursor1.getColumnIndex("mimetype"));
+
+				if ("vnd.android.cursor.item/name".equals(mimeType)) { // Is name
+					//Judge if the search key suits the name of contact
+					if (data1==null){
+						break;
+					}
+					for (int j=1;j<keys.length;j++){
+						if (!data1.toLowerCase().contains(keys[j].toLowerCase())){
+							flag1++;
+							break;
+						}
+					}
+					contact.put("contactName",data1);
+				} /*
+                else if ("vnd.android.cursor.item/email_v2".equals(mimeType)) { // Is Email
+                    if (data1==null){
+                        break;
+                    }
+                    if (!TextUtils.isEmpty(data1)) {
+                        contact.put("contactMail",data1);
+                    }
+                } */
+				else if ("vnd.android.cursor.item/phone_v2".equals(mimeType)) { // Is Phone Number
+					if (data1==null){
+						break;
+					}
+					String phoneNum = data1.replaceAll("[- +]", "");
+					for (int j=1;j<keys.length;j++){
+						if (!phoneNum.contains(keys[j])){
+							flag2++;
+							break;
+						}
+					}
+					//System.out.println("~~"+data1+"~~");
+					contact.put("contactPhoneNum",phoneNum);
+				}/*
+                else if ("vnd.android.cursor.item/photo".equals(mimeType)){
+                    if (data1==null){
+                        break;
+                    }
+                    System.out.println("__PHOTO GET");2
+                    contact.put("contactPhoto",data1);
+                }*/
+
+			}
+			if (flag1==0||flag2==0) {
+				contacts.add(contact);
+			}
+			cursor1.close();
+		}
+		cursor.close();
+		return contacts;
 	}
 }
