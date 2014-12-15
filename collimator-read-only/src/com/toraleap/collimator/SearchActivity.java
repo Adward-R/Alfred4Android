@@ -58,6 +58,7 @@ public class SearchActivity extends Activity implements OnClickListener, OnItemL
 	private static final int DIALOG_RESULT_DELETE_FORBIDDEN = 10;
 	private static final int DIALOG_FILTER_RANGE = 11;
 	private static final int DIALOG_OPENAS_DELETE = 12;
+	private static final int DIALOG_APPS_CUSTOM = 13; //
 	private static final int DIALOG_INDEX_OBSOLETE = 100;
 	private static final int DIALOG_FIRST_LAUNCH = 101;
 	private static final int ITEM_OPEN_VIEW = 0;
@@ -112,6 +113,8 @@ public class SearchActivity extends Activity implements OnClickListener, OnItemL
 	boolean isRefreshingInstant = false;
 	boolean isFirstLaunch = true;
 	int displayLayout = MatchAdapter.LAYOUT_TILE;
+	String appCmd;
+	String contactCmd;
 	// ����ؼ�
 	ImageButton mButtonRange;
 	ImageButton mButtonStar;
@@ -124,7 +127,6 @@ public class SearchActivity extends Activity implements OnClickListener, OnItemL
 
 	@Override
     public void onCreate(Bundle savedInstanceState) {
-        System.out.println("_______________________onCreate");
         super.onCreate(savedInstanceState);
         Intent intent = new Intent();
         intent.setClass(this, FileScannerService.class);
@@ -260,6 +262,8 @@ public class SearchActivity extends Activity implements OnClickListener, OnItemL
 	       	displayLayout = Integer.parseInt(prefs.getString("display_layout", "0"));
 	       	setLayout(displayLayout);
 	       	mTextStatus.setVisibility(prefs.getBoolean("display_statusbar", true) ? View.VISIBLE : View.GONE);
+			appCmd = prefs.getString("app_search_cmd","a");
+			contactCmd = prefs.getString("contact_search_cmd","c");
 		} catch (Exception e) {
 			Toast.makeText(getApplicationContext(), R.string.status_error_preferences, Toast.LENGTH_SHORT).show();
 		}
@@ -563,6 +567,19 @@ public class SearchActivity extends Activity implements OnClickListener, OnItemL
 					}})
 				.setNegativeButton(R.string.dialog_cancel, null)
 				.create();
+			case DIALOG_APPS_CUSTOM:
+				return new FloatingDialog(this, R.style.Theme_FloatingDialog_List, R.layout.floating_dialog_list, R.layout.floating_dialog_list_item, R.string.dialog_result_title, R.array.dialog_apps_custom_entries,
+						ICON_RESULT, 0,
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int which) {
+								switch (which) {
+									case ITEM_RESULT_STATICS: //position 0
+										System.out.println("___CUSTOMIZATION");
+										showDialog(DIALOG_RESULT_STATICS);
+										break;
+								}
+								dialog.dismiss();
+							}});
 	}
 		return super.onCreateDialog(id);
 	}
@@ -629,8 +646,12 @@ public class SearchActivity extends Activity implements OnClickListener, OnItemL
 			if (isSearching) return;
 			if (isPickMode) 
 				showDialog(DIALOG_PICK);
-			else
-				showDialog(DIALOG_RESULT);
+			else {
+				if (mode==1||mode==2)
+					showDialog(DIALOG_APPS_CUSTOM);
+				else
+					showDialog(DIALOG_RESULT);
+			}
 		} else if (mButtonRange == v) {
 			if (isRangeLocked) {
 				Toast.makeText(this, R.string.status_range_locked, Toast.LENGTH_SHORT).show();
@@ -727,14 +748,15 @@ public class SearchActivity extends Activity implements OnClickListener, OnItemL
 			//INTERFACE WITH NEWLY IMPLEMENTED FUNCTIONS
 			String key = mExpression.getKey();
 			String[] str = key.split(" ");
-			if (str[0].equals("a")&&(str.length>1||key.equals("a"+" "))) {
+			if (str[0].equals(appCmd)&&(str.length>1||key.equals(appCmd+" "))) {
 				//System.out.println("___Alternative Search Modes taking charge___");
 				mode = 1;
+				isSearching = false;
 				if (str.length>1) {
 					apps = getUserApps(GlobalContext.getInstance(),str);
 				}
 				else {
-					String _str[] = {"a", ""};
+					String _str[] = {appCmd, ""};
 					apps = getUserApps(GlobalContext.getInstance(),_str);
 				}
 				mAdapter = new SimpleAdapter(GlobalContext.getInstance(),apps,
@@ -753,13 +775,14 @@ public class SearchActivity extends Activity implements OnClickListener, OnItemL
 				});
 				mTextStatus.setText(apps.size()+" applications found.");
 			}
-			else if (str[0].equals("c")&&(str.length>1||key.equals("c"+" "))){
+			else if (str[0].equals(contactCmd)&&(str.length>1||key.equals(contactCmd+" "))){
 				mode = 2;
+				isSearching = false; //if the searching period is short enough
 				if (str.length>1) {
 					apps = getUserContacts(str);
 				}
 				else {
-					String _str[] = {"c", ""};
+					String _str[] = {contactCmd, ""};
 					apps = getUserContacts(_str);
 				}
 				mAdapter = new SimpleAdapter(this,apps,

@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen
   xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="快捷命令设置">
+        <EditTextPreference
+                android:key="app_search_cmd"
+                android:title="应用搜索命令"
+                android:defaultValue="a"
+                />
+        <EditTextPreference
+                android:key="contact_search_cmd"
+                android:title="联系人搜索命令"
+                android:defaultValue="c"
+                />
+    </PreferenceCategory>
 	<PreferenceCategory android:title="显示设置">
         <CheckBoxPreference
             android:key="display_thumbnail"
@@ -32,7 +44,7 @@
         />
         <ListPreference
         	android:key="display_layout"
-        	android:title="显示~布局"
+        	android:title="显示布局"
         	android:summary="选择匹配结果的显示方式"
         	android:entries="@array/dialog_layout_entries"
         	android:entryValues="@array/dialog_layout_entriesvalue"

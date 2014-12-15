@@ -1,6 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen
   xmlns:android="http://schemas.android.com/apk/res/android">
+	<PreferenceCategory android:title="快捷命令設置">
+		<EditTextPreference
+				android:key="app_search_cmd"
+				android:title="應用搜索命令"
+				android:defaultValue="a"
+				/>
+		<EditTextPreference
+				android:key="contact_search_cmd"
+				android:title="聯繫人搜索命令"
+				android:defaultValue="c"
+				/>
+	</PreferenceCategory>
 	<PreferenceCategory android:title="顯示設置">
 		<CheckBoxPreference
 			android:key="display_thumbnail"
